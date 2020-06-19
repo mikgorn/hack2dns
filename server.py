@@ -9,13 +9,19 @@ app = Flask(__name__)
 _current_path: Path = Path(__file__).parent
 
 
-@app.route("/")
-def index():
-    return render_template("index.html")
+class Server:
 
-@app.route("/registration")
-def register():
-    return render_template("registration.html")
+    @staticmethod
+    @app.route("/")
+    def index():
+        return render_template("index.html")
+
+    @staticmethod
+    @app.route("/registration")
+    def register():
+        return render_template("registration.html")
+
+
 
 if __name__ == "__main__":
     app.run()
