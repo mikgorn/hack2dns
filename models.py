@@ -6,10 +6,6 @@ from dataclasses import dataclass
 class BasicUser:
     first_name: str
     second_name: str
-    patronymic: Optional[str]
     email: str
     telephone: str
-
-
-if __name__ == '__main__':
-    ...
+    patronymic: Optional[str] = None
