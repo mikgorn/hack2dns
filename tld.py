@@ -1,7 +1,7 @@
 from typing import *
 from pathlib import Path
 
-import idna  # type: ignore
+from utils import convert_punycode_to_utf
 
 
 _tlds: Set[str] = set()
@@ -12,12 +12,12 @@ def _read_tld_file(tld_file_path: Path) -> Generator[str, None, None]:
         for line in file:
             if line.startswith("#"):
                 continue
-            yield line.strip()
+            yield line
 
 
 def initialize_tld(tld_file_path: Path) -> None:
     for tld in _read_tld_file(tld_file_path):
-        _tlds.add(idna.decode(tld.strip()))
+        _tlds.add(convert_punycode_to_utf(tld.strip()))
 
 
 def is_correct_tld(tld: str) -> bool:
