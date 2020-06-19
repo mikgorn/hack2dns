@@ -26,7 +26,7 @@ class SimpleMailSender:
     def _send_message(
         self,
         from_addr: str,
-        to_addrs: Iterator[str],
+        to_addrs: Union[str, Sequence[str]],
         *message_args,
         **message_kwargs
     ) -> None:
@@ -42,7 +42,10 @@ class SimpleMailSender:
         self._default_sender_addr = to_addr
 
     def send_message_by_default_mail(
-        self, to_addrs: Iterator[str], *message_args, **message_kwargs
+        self,
+        to_addrs: Union[str, Sequence[str]],
+        *message_args,
+        **message_kwargs
     ) -> None:
         if self._default_sender_addr is None:
             raise Exception("Send by null-mail!")
@@ -54,13 +57,18 @@ class SimpleMailSender:
         )
 
     def send_message(
-        self, from_addr: str, to_addrs: str, *message_args, **message_kwargs
+        self,
+        from_addr: str,
+        to_addrs: Union[str, Sequence[str]],
+        *message_args,
+        **message_kwargs
     ) -> None:
         self._send_message(
             from_addr, to_addrs, *message_args, **message_kwargs
         )
 
     def _stop(self) -> None:
+        assert self._smtp, smtplib.SMTP
         self._smtp.quit()
 
     def stop(self) -> None:
