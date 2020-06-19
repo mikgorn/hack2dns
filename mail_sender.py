@@ -8,12 +8,15 @@ class SimpleMailSender:
         self,
         smtp_host: str,
         smtp_port: int,
-        default_sender_mail: Optional[str] = None,
+        default_sender_addr: Optional[str] = None,
     ):
         self.host = smtp_host
         self.port = smtp_port
+        self._smtp: Optional[smtplib.SMTP] = None
+        self._default_sender_addr = default_sender_addr
+
+    def start(self) -> None:
         self._smtp = smtplib.SMTP(self.host, self.port)
-        self._default_sender_mail = default_sender_mail
 
     def _create_message(self, *args, **kwargs) -> EmailMessage:
         message = EmailMessage()
@@ -22,22 +25,50 @@ class SimpleMailSender:
 
     def _send_message(
         self,
-        from_mail: str,
-        to_mails: Iterator[str],
+        from_addr: str,
+        to_addrs: Iterator[str],
         *message_args,
         **message_kwargs
     ) -> None:
+        if self._smtp is None:
+            raise Exception("Mail sender is not running!")
         self._smtp.send_message(
             self._create_message(*message_args, **message_kwargs),
-            from_addr=from_mail,
-            to_addrs=to_mails,
+            from_addr=from_addr,
+            to_addrs=to_addrs,
+        )
+
+    def set_default_sender_addr(self, to_addr) -> None:
+        self._default_sender_addr = to_addr
+
+    def send_message_by_default_mail(
+        self, to_addrs: Iterator[str], *message_args, **message_kwargs
+    ) -> None:
+        if self._default_sender_addr is None:
+            raise Exception("Send by null-mail!")
+        self._send_message(
+            self._default_sender_addr,
+            to_addrs,
+            *message_args,
+            **message_kwargs
+        )
+
+    def send_message(
+        self, from_addr: str, to_addrs: str, *message_args, **message_kwargs
+    ) -> None:
+        self._send_message(
+            from_addr, to_addrs, *message_args, **message_kwargs
         )
 
     def _stop(self) -> None:
         self._smtp.quit()
 
+    def stop(self) -> None:
+        self._stop()
+
 
 if __name__ == "__main__":
     s = SimpleMailSender("localhost", 1025)
-    s._send_message("ficys@bj.k", "фокус@ар.ка", "фокус")
-    s._stop()
+    s.start()
+    s.send_message("test@k.k", ["check@ар.рф", "Ficus@bk.ru"], "фокус")
+    s.stop()

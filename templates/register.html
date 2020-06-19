@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+        <head>
+                <meta charset="utf-8">
+                <!-- Latest compiled and minified CSS -->
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        
+                <!-- jQuery library -->
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        
+                <!-- Latest compiled JavaScript -->
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        </head>
+        <body>
+                <div class="jumbotron text-center">
+                        <h1>Регистрация личного кабинета.</h1> 
+                </div>
+                <div class="row">
+                        <div class="col-lg-4"></div>
+                        <div class="col-lg-4 ">
+                                <div class="row"><h2>Укажите необходимые данные</h2></div>
+                                <div class="row">
+                                        <form action="">
+
+                                                <div class="form-group">
+                                                        <label for="secondname">Фамилия</label>
+                                                        <input type="text" class="form-control" id="secondname">
+                                                </div>
+                                                <div class="form-group">
+                                                        <label for="firstname">Имя</label>
+                                                        <input type="text" class="form-control" id="firstname">
+                                                </div>
+                                                <div class="form-group">
+                                                        <label for="patronymic">Отчество</label>
+                                                        <input type="text" class="form-control" id="patronymic">
+                                                </div>
+                                                <div class="checkbox">
+                                                        <label><input type="checkbox" value="">Нет отчества</label>
+                                                </div>
+                                                <label for="bd">Дата рождения</label>
+                                                <div class="form-group row" id="bd">
+                                                        
+                                                        <div class="col-lg-3">
+                                                                <label for="bdday">День</label>
+                                                                <select class="form-control" id="bdday">
+                                                                </select>  
+                                                        </div>
+                                                        <div class="col-lg-4">
+                                                                <label for="bdmonth">Месяц</label>
+                                                                <select class="form-control" id="bdmonth">
+                                                                </select>  
+                                                        </div>
+                                                        <div class="col-lg-5">
+                                                                <label for="bdyear">Год</label>
+                                                                <select class="form-control" id="bdyear">
+                                                                </select>  
+                                                        </div>
+                                                        <script>
+                                                                
+                                                                var bdday=document.getElementById("bdday");
+                                                                for (var i=1;i<32;i++){
+                                                                        bdday.appendChild(new Option(i,i));
+                                                                }
+                                                                var months=["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"];
+                                                                var bdmonth=document.getElementById("bdmonth");
+                                                                for (var i=0;i<12;i++){
+                                                                        bdmonth.appendChild(new Option(months[i],i+1));
+                                                                }
+
+                                                                var bdyear=document.getElementById("bdyear");
+                                                                for (var i=2020;i>1900;i--){
+                                                                        bdyear.appendChild(new Option(i,i));
+                                                                }
+
+                                                        </script>
+
+                                                </div>
+
+                                                <div class="form-group">
+                                                        <label for="email">Адрес электронной почты</label>
+                                                        <input type="email" class="form-control" id="email">
+                                                </div>
+                                                <div class="form-group">
+                                                        <label for="confirmemail">Повторите электронную почту</label>
+                                                        <input type="email" class="form-control" id="confirmemail">
+                                                </div>
+                                                
+                                                <div class="form-group">
+                                                        <label for="confirmpwd">Пароль</label>
+                                                        <input type="password" class="form-control" id="pwd">
+                                                </div>
+                                                <div class="form-group">
+                                                        <label for="pwd">Повторите пароль</label>
+                                                        <input type="password" class="form-control" id="confirmpwd">
+                                                </div>
+                                                <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
+                                        </form>
+                                        
+                                </div>    
+                                                    
+                        </div>
+                        <div class="col-lg-4"></div>
+                        
+                </div>
+        </body>
+        
+</html>
