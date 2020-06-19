@@ -15,9 +15,7 @@ def _read_tld_file(tld_file_path: Path) -> Generator[str, None, None]:
             yield line.strip()
 
 
-def initialize_tld(tld_file_path: Optional[Path] = None) -> None:
-    if tld_file_path is None:
-        raise NotImplementedError("Tld file path is None!")
+def initialize_tld(tld_file_path: Path) -> None:
     for tld in _read_tld_file(tld_file_path):
         _tlds.add(idna.decode(tld.strip()))
 
