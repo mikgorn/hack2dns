@@ -1,2 +1,2 @@
 black -l 79 --exclude venv .
-mypy .
+mypy tld.py utils.py
