@@ -8,7 +8,7 @@ from dataclasses import dataclass
 class NameMixin:
     first_name: str
     second_name: str
-    patronymic: Optional[str]
+    patronymic: str
 
 
 @dataclass
@@ -19,6 +19,7 @@ class BirthdayMixin:
 @dataclass
 class ContactsMixin:
     email: str
+    address: str
 
 
 @dataclass
@@ -65,7 +66,7 @@ class User(
         defaults_values = {
             "disabled": False,
             "retiree": False,
-            "patronymic": None,
+            "patronymic": str,
         }
         other_fields = {"confirmpassword", "confirmemail"}
         data = {k: v for k, v in raw_data.items()}
@@ -79,4 +80,16 @@ class User(
         )
         for k in other_fields:
             data.pop(k)
+        return cls(**data)
+
+    @classmethod
+    def create_user_from_sqlite_db(
+        cls, values: Tuple, fields: Tuple
+    ) -> "User":
+        data = {}
+        for i in range(len(fields)):
+            data[fields[i]] = values[i]
+        data["birthday"] = datetime.strptime(
+            data["birthday"], "%Y-%m-%d %H:%M:%S.%f"
+        )
         return cls(**data)
