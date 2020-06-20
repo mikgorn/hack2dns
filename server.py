@@ -103,6 +103,14 @@ class Server:
         print(answer)
         return render_template("admin.html",answer=answer)
 
+    @staticmethod
+    @app.route("/send_one",methods=['POST','GET'])
+    def send_one():
+        mails = {request.form["email"]:"You are the chosen one"}
+        answer = _mail_sender.send_messages(mails)
+        print(answer)
+        return render_template("admin.html",answer=answer)
+
 
 if __name__ == "__main__":
     app.run()
