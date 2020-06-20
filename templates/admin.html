@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+        <head>
+                <meta charset="utf-8">
+                <!-- Latest compiled and minified CSS -->
+                <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        
+                <!-- jQuery library -->
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        
+                <!-- Latest compiled JavaScript -->
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        </head>
+        <body>
+                <div class="jumbotron text-center">
+                        <h1>Панель управления.</h1> 
+                </div>
+                <div class="row">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-3 ">
+                                <div class="row"><h2>Рассылка</h2></div>
+                                <div class="row">
+                                     <form action="/spam"><button type="submit" class="btn btn-primary btn-block">Общая рассылка</button></form>  
+                                        
+                                        
+                                </div>  
+                        </br>
+                                <div class="row">
+                                        <form action="/send_one">
+                                                <div class="form-group">
+                                                        <label for="email">Email</label>
+                                                        <input type="email" class="form-control" id="email" name="email">
+                                                </div>
+                                                <button type="submit" class="btn btn-primary btn-block">Отправить конкретному пользователю</button>
+                                        </form>  
+                                           
+                                           
+                                </div>     
+                                                     
+                        </div>
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-5">
+                                <h2>Статус рассылки</h2>
+                                <div class="row bg-success">Этому дошло</div>
+                                <div class="row bg-danger">Этому не дошло</div>
+                        </div>
+                </div>
+        </body>
+        
+</html>
