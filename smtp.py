@@ -69,7 +69,7 @@ class UTFSMTP(smtplib.SMTP):
         self.ehlo_or_helo_if_needed()
         esmtp_opts = []
         if isinstance(msg, str):
-            msg = smtplib._fix_eols(msg).encode("ascii")
+            msg = smtplib._fix_eols(msg).encode(self.command_encoding)
         if self.does_esmtp:
             if self.has_extn("size"):
                 esmtp_opts.append("size=%d" % len(msg))

@@ -1,8 +1,28 @@
+import smtplib
 from typing import *
+from functools import wraps
+from logging import getLogger
 from email.message import EmailMessage
 from ssl import create_default_context
 
 import smtp
+
+
+def SMTPDisconnectErrorRetryPolicy(f: Callable) -> Callable:
+    @wraps(f)
+    def inner(self: "SimpleMailSender", *args, **kwargs):
+        error = None
+        for _ in range(3):
+            try:
+                return f(self, *args, **kwargs)
+            except smtplib.SMTPServerDisconnected as e:
+                self._logger.exception(e)
+                error = e
+                self.reconnect()
+        if error is not None:
+            raise error
+
+    return inner
 
 
 class SimpleMailSender:
@@ -13,6 +33,7 @@ class SimpleMailSender:
         self.port = smtp_port
         self.sender_addr: Optional[str] = sender_addr
         self._smtp: Optional[smtp.UTFSMTP] = None
+        self._logger = getLogger(__file__)
 
     def _start(self) -> None:
         if self._smtp is not None:
@@ -22,11 +43,16 @@ class SimpleMailSender:
     def start(self) -> None:
         self._start()
 
+    def reconnect(self) -> None:
+        assert self._smtp is not None
+        self._smtp.connect(self.host, self.port)
+
     def _create_message(self, *args, **kwargs) -> EmailMessage:
         message = EmailMessage()
         message.set_content(*args, **kwargs)
         return message
 
+    @SMTPDisconnectErrorRetryPolicy
     def _send_message(
         self,
         to_addrs: Union[str, Sequence[str]],
@@ -94,6 +120,10 @@ class SecureMailSender(SimpleMailSender):
 
     def start(self) -> None:
         self._start()
+        self._login()
+
+    def reconnect(self) -> None:
+        super().reconnect()
         self._login()
 
     def set_sender_password(
