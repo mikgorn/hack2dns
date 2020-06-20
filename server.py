@@ -1,7 +1,7 @@
 from typing import *
 from pathlib import Path
 from datetime import datetime
-from logging import getLogger, INFO
+from logging import getLogger, INFO, basicConfig
 
 from flask import Flask, render_template, request, redirect, make_response
 
@@ -21,7 +21,6 @@ app = Flask(__name__)
 
 
 _logger = getLogger(__file__)
-_logger.setLevel(INFO)
 _current_path: Path = Path(__file__).parent
 _database: Database = Database(Path("hack2.db"))
 _database.initialize()
@@ -107,7 +106,7 @@ class Server:
 
             bad_check_results = Server.validate_registration_data(request.form)
             if bad_check_results:
-                print(bad_check_results)
+                _logger.info(bad_check_results)
                 return render_template(
                     "registration.html", error=bad_check_results
                 )
@@ -151,7 +150,7 @@ class Server:
             ):
                 mails[user.email] = message
         answer = _mail_sender.send_messages(mails)
-        print(answer)
+        _logger.info(answer)
         return render_template("admin.html", answer=answer, users=users)
 
     @staticmethod
@@ -159,9 +158,10 @@ class Server:
     def send_one():
         mails = {request.form["email"]: "You are the chosen one"}
         answer = _mail_sender.send_messages(mails)
-        print(answer)
+        _logger.info(answer)
         return render_template("admin.html", answer=answer)
 
 
 if __name__ == "__main__":
+    basicConfig(level=INFO)
     app.run(host=config.SERVER_HOST, port=config.SERVER_PORT)
