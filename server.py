@@ -6,11 +6,11 @@ from logging import getLogger, INFO, basicConfig
 from flask import Flask, render_template, request, redirect, make_response
 
 import tld
+import utils
 import config
 from models import User, Roles
 from database import Database
 from mail_sender import SecureMailSender
-import utils
 
 
 DAY = 24 * 60 * 60
@@ -54,7 +54,7 @@ class Server:
             return "Некорректный домен верхнего уровня."
         if _database.get_user_by_email(email) is not None:
             return "Такая почта уже зарегестрирована."
-        if len(data["password"]) > MIN_PASSWORD_LEN:
+        if len(data["password"]) < MIN_PASSWORD_LEN:
             return (
                 "Слишком короткий пароль. Минимальная длина: %s."
                 % MIN_PASSWORD_LEN
