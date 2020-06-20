@@ -10,6 +10,9 @@ from database import Database
 from mail_sender import SecureMailSender
 
 
+DAY = 24 * 60 * 60
+
+
 app = Flask(__name__)
 
 
@@ -46,7 +49,7 @@ class Server:
             # Рендер следующей страницы
             resp = make_response(render_template("profile.html", user=user))
             resp.set_cookie("email", request.form["email"])
-            return redirect("/profile")
+            return resp
         return render_template("registration.html")
 
     @staticmethod
