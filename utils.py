@@ -1,3 +1,4 @@
+import re
 import socket
 import hashlib
 from typing import *
@@ -8,6 +9,7 @@ import idna  # type: ignore
 
 
 _logger = getLogger(__file__)
+_email_pattern = re.compile(r"[^@]+@[^@]+\.[^@]+")
 
 
 def convert_punycode_to_utf(punycode: str) -> str:
@@ -42,6 +44,16 @@ def convert_email_from_punycode_to_utf(email: str) -> str:
     """
     parts = email.split("@")
     return "@".join([parts[0], convert_punycode_to_utf(parts[1])])
+
+
+def is_correct_email(email: str) -> bool:
+    """
+    >>> is_correct_email("andreyivanov01@тестовая-зона.рф")
+    True
+    >>> is_correct_email("andreyivanov01@тестовая-зонарф")
+    False
+    """
+    return bool(re.search(_email_pattern, email))
 
 
 if __name__ == "__main__":

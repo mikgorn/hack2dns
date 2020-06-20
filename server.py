@@ -43,7 +43,9 @@ class Server:
         if data["password"] != data["confirmpassword"]:
             return "Пароли не совпадают!"
         if not tld.is_correct_email_tld(data["email"]):
-            return "Некоректный домен верхнего уровня!"
+            return "Некорректный домен верхнего уровня!"
+        if not utils.is_correct_email(data["email"]):
+            return "Некорректный email-адресс!"
         return None
 
     @staticmethod
