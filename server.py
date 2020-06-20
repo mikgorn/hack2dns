@@ -111,16 +111,16 @@ class Server:
         mails = {u.email: "SPAAAAM!!!" for u in users}
         answer = _mail_sender.send_messages(mails)
         print(answer)
-        return render_template("admin.html",answer=answer)
+        return render_template("admin.html", answer=answer)
 
     @staticmethod
-    @app.route("/send_one",methods=['POST','GET'])
+    @app.route("/send_one", methods=["POST", "GET"])
     def send_one():
-        mails = {request.form["email"]:"You are the chosen one"}
+        mails = {request.form["email"]: "You are the chosen one"}
         answer = _mail_sender.send_messages(mails)
         print(answer)
-        return render_template("admin.html",answer=answer)
+        return render_template("admin.html", answer=answer)
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host=config.SERVER_HOST, port=config.SERVER_PORT)
