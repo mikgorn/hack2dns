@@ -50,8 +50,17 @@ class SimpleMailSender:
         to_addrs: Union[str, Sequence[str]],
         *message_args,
         **message_kwargs
-    ) -> None:
-        self._send_message(to_addrs, *message_args, **message_kwargs)
+    ) -> Optional[Exception]:
+        try:
+            self._send_message(to_addrs, *message_args, **message_kwargs)
+        except Exception as e:
+            return e
+
+    def send_messages(self, sending_data: Dict[str, str]) -> Dict[str, Optional[Exception]]:
+        results = {}
+        for email, message in sending_data.items():
+            results[email] = self.send_message(email, message)
+        return results
 
     def _stop(self) -> None:
         assert self._smtp is not None
@@ -71,8 +80,8 @@ class SecureMailSender(SimpleMailSender):
 
     def _login(self) -> None:
         assert self._smtp is not None
-        assert self._password is str
-        assert self.sender_addr is str
+        assert self._password is not None
+        assert self.sender_addr is not None
         self._smtp.login(self.sender_addr, self._password)  # type: ignore
 
     def _start(self) -> None:
@@ -97,11 +106,12 @@ if __name__ == "__main__":
         "localhost", 1025, sender_addr="алёша.попович@русские-сказки.нет"
     )
     s.start()
-    s.send_message(["check@ар.рф", "Ficus@bk.ru"], "фокус")
+    print(s.send_message(["check@ар.рф", "Ficus@bk.ru"], "фокус"))
     s.stop()
     s = SimpleMailSender("localhost", 1025, "ficus@net.ru")
     s.start()
-    s.send_message("Ficus@bk.ru", "Ficus")
+    print(s.send_message("Ficus@bk.ru", "Ficus"))
+    print(s.send_messages({"ficus@bk.ар": "Cool", "BreakTheЛайн@тест.ком": "Хеллo"}))
     s.stop()
     secure = SecureMailSender(
         "srv.ru",
@@ -110,5 +120,6 @@ if __name__ == "__main__":
         password="93ce31bc57",
     )
     secure.start()
-    secure.send_message("kirillkim03@тестовая-зона.рф", "Hello, world!")
+    print(secure.send_message("kirillkim03@тестовая-зона.рф", "Hello, world!"))
+    print(secure.send_messages({"andreyivanov01@тестовая-зона.рф": "Cool", "petrsergeev02@тестовая-зона.рф": "Cool1", "kirillkim03@тестовая-зона.рф": "Hello, Kirill!", "олег@тест.рф": "Мимо"}))
     secure.stop()
