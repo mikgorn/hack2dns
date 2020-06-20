@@ -29,7 +29,7 @@ def main():
         password=get_password_hash("1111"),
         email="petrsergeev02@тестовая-зона.рф",
         disabled=False,
-        retiree=True,
+        retiree=False,
         address="Moscow",
         role=Roles.USER,
     )
@@ -42,7 +42,7 @@ def main():
         password=get_password_hash("админ"),
         email="kirillkim03@тестовая-зона.рф",
         disabled=False,
-        retiree=True,
+        retiree=False,
         address="Saint-Petersburg",
         role=Roles.ADMIN,
     )
