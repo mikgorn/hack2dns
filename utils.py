@@ -17,15 +17,17 @@ def convert_punycode_to_utf(punycode: str) -> str:
     return idna.decode(punycode)
 
 
-def is_domain_exist(hostname: str) -> bool:
+def is_domain_exist(domain: str) -> bool:
     """
     >>> is_domain_exist("google.com")
     True
     >>> is_domain_exist("minus_plus_del.abcd")
     False
+    >>> is_domain_exist("тестовая-зона.рф")
+    True
     """
     with suppress(Exception):
-        socket.gethostbyname(hostname)
+        socket.gethostbyname(domain)
         return True
     return False
 
@@ -104,6 +106,16 @@ def is_domain_has_host_ipv6_addresses(domain: str) -> bool:
         except dns.resolver.NXDOMAIN:
             return False
     return False
+
+
+def get_domain_from_email(email: str) -> str:
+    """
+    >>> get_domain_from_email("abc@bk.ru")
+    'bk.ru'
+    >>> get_domain_from_email("abc@bk.bk.ru")
+    'bk.bk.ru'
+    """
+    return email.split("@")[1]
 
 
 if __name__ == "__main__":

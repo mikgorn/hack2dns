@@ -16,6 +16,8 @@ from mail_sender import SecureMailSender
 DAY = 24 * 60 * 60
 MIN_PASSWORD_LEN = 4
 
+DEFAULT_USERNAME = "Уважаемый Пользователь"
+
 
 app = Flask(__name__)
 
@@ -44,11 +46,15 @@ class Server:
     def validate_registration_data(data: Dict[str, Any]) -> Optional[str]:
         for c in "0123456789/@#$%^&*()_=-+}{,.":
             if c in (
-                data["first_name"] + data["second_name"] + data["patronymic"]
+                "".join(
+                    [
+                        data["first_name"],
+                        data["second_name"],
+                        data["patronymic"],
+                    ]
+                )
             ):
                 return "Некорректный символ в имени"
-        if not (data["email"] == data["confirm_email"]):
-            return "Адреса электронной почты не совпадают"
         if not data["second_name"]:
             return "Фамилия отсутствует"
         if not data["first_name"]:
@@ -56,7 +62,13 @@ class Server:
         email = data["email"]
         if not utils.is_correct_email(email):
             return "Некорректный email-адрес"
+        if data["email"] != data["confirm_email"]:
+            return "Адреса электронной почты не совпадают"
         email = utils.convert_email_from_punycode_to_utf(email)
+        if not utils.is_domain_exist(utils.get_domain_from_email(email)):
+            return "Домен '%s' не существует" % utils.get_domain_from_email(
+                email
+            )
         if not tld.is_correct_email_tld(email):
             return "Некорректный домен верхнего уровня"
         if _database.get_user_by_email(email) is not None:
@@ -149,18 +161,35 @@ class Server:
     @app.route("/spam", methods=["POST", "GET"])
     def spam():
         message = request.form.get("message")
-        users = _database.get_all_users()
-        print(request.form)
-        if request.form.get("send_one") != None:
+        if request.form.get("send_one") is not None:
             email = request.form.get("email")
+            if not utils.is_correct_email(email):
+                return render_template(
+                    "admin.html",
+                    error="Неверный формат email",
+                    users=_database.get_all_users(),
+                )
+            if not utils.is_domain_exist(utils.get_domain_from_email(email)):
+                return render_template(
+                    "admin.html",
+                    error="Домен '%s' не существует"
+                    % utils.get_domain_from_email(email),
+                    users=_database.get_all_users(),
+                )
+            email = utils.convert_email_from_punycode_to_utf(email)
             user = _database.get_user_by_email(email)
-            mails = {email: mesage.replace("_username_", user.first_name)}
+            if user is None:
+                mails = {
+                    email: message.replace("_username_", DEFAULT_USERNAME)
+                }
+            else:
+                mails = {email: message.replace("_username_", user.first_name)}
             answer = _mail_sender.send_messages(mails)
             _logger.info(answer)
-            return render_template("admin.html", answer=answer, users=users)
+            return render_template("admin.html", answer=answer)
 
-        if request.form.get("spam") != None:
-
+        if request.form.get("spam") is not None:
+            users = _database.get_all_users()
             mails = {}
             for user in users:
                 if (request.form["address"] == "Все города") or (
