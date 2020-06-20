@@ -38,6 +38,13 @@
                                 <div class="row"><h2>Рассылка</h2></div>
                                 <div class="row">
                                         <form action="/spam" method='POST'>
+
+                                                <div class="form-group">
+                                                        <label for="message">Текст</label>
+                                                        <textarea rows="3" class="form-control" id="message" name="message">Уважаемый %username% , просим Вас пройти профилактический курс лечения. С уважением, команда по борьбе с пандемией.</textarea>
+                                                        
+                                                </div>
+
                                                 <div class="form-group">
                                                         <label for="address">Регион проживания</label>
                                                         <select required class="form-control" id="address" name="address"></select>
@@ -49,23 +56,17 @@
                                                                 address.appendChild(new Option(addresses[i],addresses[i]));
                                                         }
                                                 </script>
-                                                <button type="submit" class="btn btn-primary btn-block">Общая рассылка</button>
-                                        </form>  
-                                        
-                                        
-                                </div>  
-                        </br>
-                                <div class="row">
-                                        <form action="/send_one" method='POST'>
+                                                <button type="submit" class="btn btn-primary btn-block" name="spam">Общая рассылка</button>
                                                 <div class="form-group">
                                                         <label for="email">Email</label>
                                                         <input type="text" class="form-control" id="email" name="email">
                                                 </div>
-                                                <button type="submit" class="btn btn-primary btn-block">Отправить конкретному пользователю</button>
+                                                <button type="submit" class="btn btn-primary btn-block" name="send_one">Отправить конкретному пользователю</button>
                                         </form>  
-                                           
-                                           
-                                </div>     
+                                        
+                                        
+                                </div>  
+                                    
                                                      
                         </div>
                         <div class="col-lg-1"></div>

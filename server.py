@@ -141,17 +141,29 @@ class Server:
     @staticmethod
     @app.route("/spam", methods=["POST", "GET"])
     def spam():
-        users = _database.get_all_users()
-        message = "SPAAAAM!!!"
-        mails = {}
-        for user in users:
-            if (request.form["address"] == "Все города") or (
-                request.form["address"] == user.address
-            ):
-                mails[user.email] = message
-        answer = _mail_sender.send_messages(mails)
-        _logger.info(answer)
-        return render_template("admin.html", answer=answer, users=users)
+        message=request.form.get("message")
+        print(request.form)
+        if(request.form.get("send_one")!=None):
+            email=request.form.get("email")
+            user=_database.get_user_by_email(email)
+            mails = {email: mesage.replace("_username_",user.name)}
+            answer = _mail_sender.send_messages(mails)
+            _logger.info(answer)
+            return render_template("admin.html", answer=answer)
+        
+        if(request.form.get("spam")!=None):
+            users = _database.get_all_users()
+            mails = {}
+            for user in users:
+                if (request.form["address"] == "Все города") or (
+                    request.form["address"] == user.address
+                ):
+                    mails[user.email] = message
+            answer = _mail_sender.send_messages(mails)
+            _logger.info(answer)
+            return render_template("admin.html", answer=answer, users=users)
+        
+        
 
     @staticmethod
     @app.route("/send_one", methods=["POST", "GET"])
