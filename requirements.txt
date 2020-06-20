@@ -2,4 +2,5 @@ idna
 mypy
 black
 flask
+dnspython
 python-dateutil
