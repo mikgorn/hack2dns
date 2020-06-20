@@ -30,7 +30,7 @@ def is_correct_tld(tld: str) -> bool:
 
 def is_correct_email_tld(email: str) -> bool:
     """
-    >>> is_correct_email_tld("andreyivanov01@тестовая-зона.рф")
+    >>> is_correct_email_tld("petrsergeev02@тестовая-зона.рф")
     True
     >>> is_correct_email_tld("andreyivanov01@тестовая-зона.нерф")
     False

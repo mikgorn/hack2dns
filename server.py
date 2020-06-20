@@ -32,6 +32,8 @@ _mail_sender: SecureMailSender = SecureMailSender(
 )
 _mail_sender.start()
 
+tld.initialize_tld(tld_file_path=config.TLD_FILE_PATH)
+
 
 class Server:
     def __init__(self, database: Database, mail_sender: SecureMailSender):
@@ -42,9 +44,10 @@ class Server:
     def validate_registration_data(data: Dict[str, Any]) -> Optional[str]:
         if data["password"] != data["confirmpassword"]:
             return "Пароли не совпадают!"
-        if not tld.is_correct_email_tld(data["email"]):
+        email = utils.convert_email_from_punycode_to_utf(data["email"])
+        if not tld.is_correct_email_tld(email):
             return "Некорректный домен верхнего уровня!"
-        if not utils.is_correct_email(data["email"]):
+        if not utils.is_correct_email(email):
             return "Некорректный email-адресс!"
         return None
 
