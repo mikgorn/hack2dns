@@ -9,7 +9,7 @@ from ssl import create_default_context
 import smtp
 
 
-WAIT_TIME = 3
+WAIT_TIME = 1
 
 
 def SMTPDisconnectErrorRetryPolicy(f: Callable) -> Callable:
@@ -82,6 +82,7 @@ class SimpleMailSender:
     ) -> Optional[Exception]:
         try:
             self._send_message(to_addrs, *message_args, **message_kwargs)
+            sleep(WAIT_TIME)
             return None
         except Exception as e:
             return e
