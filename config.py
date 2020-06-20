@@ -9,3 +9,5 @@ SERVER_HOST = "localhost"
 SERVER_PORT = 5000
 
 TLD_FILE_PATH = Path("./tlds-alpha-by-domain.txt")
+
+DB_PATH = Path("./hack2.db")

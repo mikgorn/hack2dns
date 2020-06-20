@@ -4,7 +4,7 @@ from sqlite3 import connect
 from functools import wraps
 from threading import Semaphore
 
-from models import User
+from models import User, Roles
 
 
 def transaction(f: Callable) -> Callable:
@@ -34,6 +34,7 @@ class Database:
         "password",
         "retiree",
         "disabled",
+        "role",
     )
 
     def __init__(self, dbfile_path: Path):
@@ -44,7 +45,7 @@ class Database:
     @transaction
     def initialize(self):
         self.c.execute(
-            "CREATE TABLE IF NOT EXISTS user  (email text primary key, first_name text, second_name text, patronymic text, birthday datetime, address text, password text, retiree int, disabled int  )"
+            "CREATE TABLE IF NOT EXISTS user  (email text primary key, first_name text, second_name text, patronymic text, birthday datetime, address text, password text, retiree int, disabled int, role int  )"
         )
         self.connection.commit()
 
@@ -118,6 +119,7 @@ if __name__ == "__main__":
         disabled=False,
         retiree=True,
         address="Ficus",
+        role=Roles.ADMIN,
     )
     u1 = User(
         first_name="slava",
@@ -129,12 +131,15 @@ if __name__ == "__main__":
         disabled=False,
         retiree=True,
         address="Ficus",
+        role=Roles.USER,
     )
     d = Database(Path("database2.db"))
     d.initialize()
     d.set_user(u)
     d.set_user(u1)
-    print(d._find_by({"email": "ficus@bk.рФ"}))
+    print(d._find_by({"email": "ficus@bk.рф"}))
     print(d.get_all_users())
-    print(d.get_user_by_email("ficus@bk.рФ"))
+    g = d.get_user_by_email("ficus@bk.рф")
+    print(g)
+    print(g.role == Roles.ADMIN)
     d.close()

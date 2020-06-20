@@ -1,9 +1,15 @@
 import hashlib
 from typing import *
+from enum import IntEnum
 from datetime import datetime
 from dataclasses import dataclass
 
 import utils
+
+
+class Roles(IntEnum):
+    USER = 0
+    ADMIN = 1
 
 
 @dataclass
@@ -51,6 +57,11 @@ class DisabledMixin:
 
 
 @dataclass
+class RoleMixin:
+    role: Roles
+
+
+@dataclass
 class User(
     NameMixin,
     BirthdayMixin,
@@ -58,6 +69,7 @@ class User(
     RetireeMixin,
     DisabledMixin,
     ContactsMixin,
+    RoleMixin,
 ):
     def __post_init__(self):
         for base in self.__class__.__bases__:
@@ -72,6 +84,7 @@ class User(
             "disabled": False,
             "retiree": False,
             "patronymic": "",
+            "role": 0,
         }
         other_fields = {"confirmpassword"}
         data = {k: v for k, v in raw_data.items()}
@@ -114,4 +127,6 @@ if __name__ == "__main__":
         disabled=False,
         retiree=True,
         address="Ficus",
+        role=Roles.USER,
     )
+    print(u)
