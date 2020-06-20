@@ -93,7 +93,7 @@ class Server:
         if request.method == "POST":
             if not utils.is_correct_email(request.form["email"].lower()):
                 return render_template(
-                    "index.html", error="Введите корректный email."
+                    "index.html", error="Введите корректный email"
                 )
             email = utils.convert_email_from_punycode_to_utf(
                 request.form["email"].lower()
@@ -103,7 +103,7 @@ class Server:
             user = _database.get_user_by_email(email)
             if user is None:
                 return render_template(
-                    "index.html", error="Пользователь не найден."
+                    "index.html", error="Пользователь не найден"
                 )
             if (email != "") and (
                 utils.get_password_hash(password) == user.password
@@ -114,6 +114,7 @@ class Server:
                 resp.set_cookie("email", user.email)
                 resp.set_cookie("role", str(int(user.role)))
                 return resp
+            return render_template("index.html", error="Неверный пароль")
         return render_template("index.html")
 
     # Регистрация
