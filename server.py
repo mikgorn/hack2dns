@@ -187,7 +187,9 @@ class Server:
                 mails = {email: message.replace("_username_", user.first_name)}
             answer = _mail_sender.send_messages(mails)
             _logger.info(answer)
-            return render_template("admin.html", answer=answer)
+            return render_template(
+                "admin.html", answer=answer, users=_database.get_all_users()
+            )
 
         if request.form.get("spam") is not None:
             users = _database.get_all_users()
