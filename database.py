@@ -107,6 +107,7 @@ class Database:
 if __name__ == "__main__":
     from datetime import datetime
     from time import time
+
     u = User(
         first_name="slava",
         second_name="Кривуя",

@@ -35,6 +35,15 @@ def get_password_hash(password: str) -> str:
     )
 
 
+def convert_email_from_punycode_to_utf(email: str) -> str:
+    """
+    >>> convert_email_from_punycode_to_utf("fsafasfa@xn---11-5cdbjut8cfe4alc2r")
+    'fsafasfa@тестовая-зона11'
+    """
+    parts = email.split("@")
+    return "@".join([parts[0], convert_punycode_to_utf(parts[1])])
+
+
 if __name__ == "__main__":
     import doctest
 
