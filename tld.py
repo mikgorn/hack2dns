@@ -28,6 +28,16 @@ def is_correct_tld(tld: str) -> bool:
     return tld.lower() in _tlds
 
 
+def is_correct_email_tld(email: str) -> bool:
+    """
+    >>> is_correct_email_tld("andreyivanov01@тестовая-зона.рф")
+    True
+    >>> is_correct_email_tld("andreyivanov01@тестовая-зона.нерф")
+    False
+    """
+    return is_correct_tld(email.split(".")[-1])
+
+
 if __name__ == "__main__":
     import doctest
 
