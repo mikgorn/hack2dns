@@ -32,7 +32,7 @@
                                         <form action="/send_one" method='POST'>
                                                 <div class="form-group">
                                                         <label for="email">Email</label>
-                                                        <input type="email" class="form-control" id="email" name="email">
+                                                        <input type="text" class="form-control" id="email" name="email">
                                                 </div>
                                                 <button type="submit" class="btn btn-primary btn-block">Отправить конкретному пользователю</button>
                                         </form>  
@@ -44,7 +44,7 @@
                         <div class="col-lg-1"></div>
                         <div class="col-lg-5">
                                 <h2>Статус рассылки</h2>
-                                {% if answer !=None %}
+                                {% if answer %}
                                 {%for email,message in answer.items() %}
                                 {% if message==None %}
                                 <div class="row bg-success">Письмо на {{ email }} отправлено без ошибок</div>

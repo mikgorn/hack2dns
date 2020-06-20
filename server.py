@@ -43,12 +43,12 @@ class Server:
     @staticmethod
     def validate_registration_data(data: Dict[str, Any]) -> Optional[str]:
         if data["password"] != data["confirmpassword"]:
-            return "Пароли не совпадают!"
+            return "Пароли не совпадают."
         email = utils.convert_email_from_punycode_to_utf(data["email"])
         if not tld.is_correct_email_tld(email):
-            return "Некорректный домен верхнего уровня!"
+            return "Некорректный домен верхнего уровня."
         if not utils.is_correct_email(email):
-            return "Некорректный email-адресс!"
+            return "Некорректный email-адресс."
         return None
 
     @staticmethod
@@ -69,7 +69,7 @@ class Server:
 
             user = _database.get_user_by_email(email)
             if user is None:
-                return render_template("index.html")
+                return render_template("index.html",error="Пользователь не найден.")
             if (email != "") and (
                 utils.get_password_hash(password) == user.password
             ):
@@ -90,7 +90,7 @@ class Server:
             bad_check_results = Server.validate_registration_data(request.form)
             if bad_check_results:
                 print(bad_check_results)
-                return render_template("registration.html")
+                return render_template("registration.html",error=bad_check_results)
             user = User.create_from_registration_form(request.form)
             _database.set_user(user)
             # Рендер следующей страницы
