@@ -61,7 +61,9 @@ class Server:
     def login():
         if request.method == "POST":
             if not utils.is_correct_email(request.form["email"].lower()):
-                return render_template("index.html",error="Введите корректный email.")
+                return render_template(
+                    "index.html", error="Введите корректный email."
+                )
             email = utils.convert_email_from_punycode_to_utf(
                 request.form["email"].lower()
             )
@@ -69,7 +71,9 @@ class Server:
 
             user = _database.get_user_by_email(email)
             if user is None:
-                return render_template("index.html",error="Пользователь не найден.")
+                return render_template(
+                    "index.html", error="Пользователь не найден."
+                )
             if (email != "") and (
                 utils.get_password_hash(password) == user.password
             ):
@@ -90,7 +94,9 @@ class Server:
             bad_check_results = Server.validate_registration_data(request.form)
             if bad_check_results:
                 print(bad_check_results)
-                return render_template("registration.html",error=bad_check_results)
+                return render_template(
+                    "registration.html", error=bad_check_results
+                )
             user = User.create_from_registration_form(request.form)
             _database.set_user(user)
             # Рендер следующей страницы
@@ -112,13 +118,17 @@ class Server:
     @app.route("/admin")
     def admin():
         users = _database.get_all_users()
-        return render_template("admin.html",users=users)
+        return render_template("admin.html", users=users)
 
     @staticmethod
-    @app.route("/spam")
+    @app.route("/spam",methods=['POST','GET'])
     def spam():
         users = _database.get_all_users()
-        mails = {u.email: "SPAAAAM!!!" for u in users}
+        message="SPAAAAM!!!"
+        mails={}
+        for user in users:
+            if (request.form["address"]=="Все города") or (request.form["address"]==user.address):
+                    mails[user.email]=message
         answer = _mail_sender.send_messages(mails)
         print(answer)
         return render_template("admin.html", answer=answer, users=users)

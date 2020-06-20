@@ -23,7 +23,20 @@
                         <div class="col-lg-3 ">
                                 <div class="row"><h2>Рассылка</h2></div>
                                 <div class="row">
-                                     <form action="/spam"><button type="submit" class="btn btn-primary btn-block">Общая рассылка</button></form>  
+                                        <form action="/spam" method='POST'>
+                                                <div class="form-group">
+                                                        <label for="address">Регион проживания</label>
+                                                        <select required class="form-control" id="address" name="address"></select>
+                                                </div>
+                                                <script>
+                                                        var addresses=["Все города","Москва","Санкт-Петербург","Регионы"];
+                                                        var address = document.getElementById("address");
+                                                        for (var i=0;i<4;i++){
+                                                                address.appendChild(new Option(addresses[i],addresses[i]));
+                                                        }
+                                                </script>
+                                                <button type="submit" class="btn btn-primary btn-block">Общая рассылка</button>
+                                        </form>  
                                         
                                         
                                 </div>  
@@ -42,7 +55,7 @@
                                                      
                         </div>
                         <div class="col-lg-1"></div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-2">
                                 <h2>Статус рассылки</h2>
                                 {% if answer %}
                                 {%for email,message in answer.items() %}
@@ -54,7 +67,7 @@
                                 {% endfor %}
                                 {% endif %}
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-5">
                                 <div class="row"><h2>Список пользователей</h2></div>
                                 {% if users %}
                                 <table class="row table table-striped">
@@ -62,6 +75,7 @@
                                                 <tr>
                                                         <th>Полное имя</th>
                                                         <th>Адрес почты</th>
+                                                        <th>Регион</th>
                                                         <th>Группа</th>
                                                 </tr>
                                                 
@@ -71,6 +85,7 @@
                                                 <tr>
                                                         <td>{{user.second_name +" "+user.first_name + " " + user.patronymic}}</td>
                                                         <td>{{user.email}}</td>
+                                                        <td>{{user.address}}</td>
                                                         <td>Взрослый</td>
                                                 </tr>
                                                 {% endfor %}
