@@ -146,7 +146,7 @@ class Server:
         if(request.form.get("send_one")!=None):
             email=request.form.get("email")
             user=_database.get_user_by_email(email)
-            mails = {email: mesage.replace("_username_",user.name)}
+            mails = {email: mesage.replace("_username_",user.first_name)}
             answer = _mail_sender.send_messages(mails)
             _logger.info(answer)
             return render_template("admin.html", answer=answer)
@@ -158,7 +158,7 @@ class Server:
                 if (request.form["address"] == "Все города") or (
                     request.form["address"] == user.address
                 ):
-                    mails[user.email] = message
+                    mails[user.email] = message.replace("_username_",user.first_name)
             answer = _mail_sender.send_messages(mails)
             _logger.info(answer)
             return render_template("admin.html", answer=answer, users=users)
