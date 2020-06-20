@@ -43,17 +43,24 @@ class Server:
         return render_template("index.html")
 
     @staticmethod
-    @app.route("/login",methods=['POST','GET'])
+    @app.route("/login", methods=["POST", "GET"])
     def login():
-        if request.method=='POST':
+        if request.method == "POST":
             print(request.form)
-            email=request.form["email"]
-            password=request.form["pwd"]
-            
+            email = utils.convert_email_from_punycode_to_utf(
+                request.form["email"]
+            )
+            password = request.form["pwd"]
+
             user = _database.get_user_by_email(email)
-            return render_template("profile.html", user=user)
-            if ((email!="") & (get_password_hash(password)==user.password)):
-                resp = make_response(render_template("profile.html", user=user))
+            print(user)
+            print(utils.get_password_hash(password))
+            if (email != "") and (
+                utils.get_password_hash(password) == user.password
+            ):
+                resp = make_response(
+                    render_template("profile.html", user=user)
+                )
                 resp.set_cookie("email", request.form["email"])
                 return resp
         return render_template("index.html")
