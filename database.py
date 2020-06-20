@@ -61,6 +61,11 @@ class Database:
         )
         self.connection.commit()
 
+    @transaction
+    def delete_user(self, email: str) -> None:
+        self.c.execute("DELETE FROM user WHERE email=?", (email, ))
+        self.connection.commit()
+
     def _find_by(
         self,
         filter_values: Dict[str, Any],
@@ -142,4 +147,6 @@ if __name__ == "__main__":
     g = d.get_user_by_email("ficus@bk.рф")
     print(g)
     print(g.role == Roles.ADMIN)
+    print(g.email)
+    d.delete_user(g.email)
     d.close()

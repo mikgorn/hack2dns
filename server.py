@@ -42,13 +42,17 @@ class Server:
 
     @staticmethod
     def validate_registration_data(data: Dict[str, Any]) -> Optional[str]:
-        if data["password"] != data["confirmpassword"]:
-            return "Пароли не совпадают."
+        if not data["second_name"]:
+            return "Фамилия отсутствует."
+        if not data["first_name"]:
+            return "Имя отсутствует."
         email = utils.convert_email_from_punycode_to_utf(data["email"])
         if not tld.is_correct_email_tld(email):
             return "Некорректный домен верхнего уровня."
         if not utils.is_correct_email(email):
             return "Некорректный email-адресс."
+        if data["password"] != data["confirmpassword"]:
+            return "Пароли не совпадают."
         return None
 
     @staticmethod
