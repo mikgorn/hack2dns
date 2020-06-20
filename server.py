@@ -8,6 +8,7 @@ import config
 from models import User
 from database import Database
 from mail_sender import SecureMailSender
+import utils
 
 
 DAY = 24 * 60 * 60
@@ -33,8 +34,16 @@ class Server:
         self._mail_sender = mail_sender
 
     @staticmethod
-    @app.route("/")
+    @app.route("/",methods=['POST','GET'])
     def index():
+        if request.method=='POST':
+            email=request.form["email"]
+            password=request.form["pwd"]
+            user = _database.get_user_by_email(email)
+            if ((email!="") & (get_password_hash(password)==user.password)):
+                resp = make_response(render_template("profile.html", user=user))
+                resp.set_cookie("email", request.form["email"])
+                return resp
         return render_template("index.html")
 
     # Регистрация
@@ -59,7 +68,21 @@ class Server:
         if email != "":
             user = _database.get_user_by_email(email)
             return render_template("profile.html", user=user)
+        return redirect("/")
 
+    @staticmethod
+    @app.route("/admin")
+    def admin():
+        return render_template("admin.html")
+
+
+    @staticmethod
+    @app.route("/spam")
+    def spam():
+        users = _database.get_all_users()
+        for user in users:
+            print(_mail_sender.send_message(user.email,"SPAM!!!"))
+        return render_template("admin.html")
 
 if __name__ == "__main__":
     app.run()
