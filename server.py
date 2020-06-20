@@ -111,7 +111,8 @@ class Server:
     @staticmethod
     @app.route("/admin")
     def admin():
-        return render_template("admin.html")
+        users = _database.get_all_users()
+        return render_template("admin.html",users=users)
 
     @staticmethod
     @app.route("/spam")
@@ -120,7 +121,7 @@ class Server:
         mails = {u.email: "SPAAAAM!!!" for u in users}
         answer = _mail_sender.send_messages(mails)
         print(answer)
-        return render_template("admin.html", answer=answer)
+        return render_template("admin.html", answer=answer, users=users)
 
     @staticmethod
     @app.route("/send_one", methods=["POST", "GET"])

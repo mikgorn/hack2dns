@@ -42,7 +42,7 @@
                                                      
                         </div>
                         <div class="col-lg-1"></div>
-                        <div class="col-lg-5">
+                        <div class="col-lg-3">
                                 <h2>Статус рассылки</h2>
                                 {% if answer %}
                                 {%for email,message in answer.items() %}
@@ -52,6 +52,30 @@
                                 <div class="row bg-danger">Письмо на {{ email }} отправлено с ошибкой {{message}}</div>
                                 {% endif %}
                                 {% endfor %}
+                                {% endif %}
+                        </div>
+                        <div class="col-lg-4">
+                                <div class="row"><h2>Список пользователей</h2></div>
+                                {% if users %}
+                                <table class="row table table-striped">
+                                        <thead>
+                                                <tr>
+                                                        <th>Полное имя</th>
+                                                        <th>Адрес почты</th>
+                                                        <th>Группа</th>
+                                                </tr>
+                                                
+                                        </thead>
+                                        <tbody>
+                                                {% for user in users %}
+                                                <tr>
+                                                        <td>{{user.second_name + user.first_name + user.patronymic}}</td>
+                                                        <td>{{user.email}}</td>
+                                                        <td>Взрослый</td>
+                                                </tr>
+                                                {% endfor %}
+                                        </tbody>
+                                </table>
                                 {% endif %}
                         </div>
                 </div>
