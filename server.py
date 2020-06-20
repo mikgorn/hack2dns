@@ -60,12 +60,16 @@ class Server:
     @app.route("/login", methods=["POST", "GET"])
     def login():
         if request.method == "POST":
+            if not utils.is_correct_email(request.form["email"].lower()):
+                return render_template("index.html")
             email = utils.convert_email_from_punycode_to_utf(
                 request.form["email"].lower()
             )
             password = request.form["pwd"]
 
             user = _database.get_user_by_email(email)
+            if user is None:
+                return render_template("index.html")
             if (email != "") and (
                 utils.get_password_hash(password) == user.password
             ):
