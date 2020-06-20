@@ -132,8 +132,8 @@ class Server:
     @staticmethod
     @app.route("/admin")
     def admin():
-        role = request.cookies.get("role")
-        if(role==str(Roles.ADMIN)):
+        role = int(request.cookies.get("role"))
+        if role == Roles.ADMIN:
             users = _database.get_all_users()
             return render_template("admin.html", users=users)
         else:
