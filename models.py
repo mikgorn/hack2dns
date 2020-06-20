@@ -91,7 +91,7 @@ class User(
             "patronymic": "",
             "role": 0,
         }
-        other_fields = {"confirmpassword"}
+        other_fields = {"confirmpassword", "confirm_email"}
         data = {k: v for k, v in raw_data.items()}
         for k, v in defaults_values.items():
             if k not in data:
