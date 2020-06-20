@@ -6,5 +6,5 @@ class Database:
         self.c = self.connection.cursor()
 
     def initialize(self):
-        self.c.execute("CREATE TABLE IF NOT EXISTS users  (id text, firstname text, secondname text, patronymic text, age datetime, email text, password text )")
+        self.c.execute("CREATE TABLE IF NOT EXISTS users  (id integer primary key autoincrement, firstname text, secondname text, patronymic text, age datetime, email text, phone text, address text, password text, retiree int, disabled int  )")
         self.connection.commit()
