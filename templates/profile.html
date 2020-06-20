@@ -24,9 +24,9 @@
                                 <div class="row"><h2>Данные пользователя</h2></div>
                                 <div class="row">
                                         <ul class="list-group">
-                                                <li class="list-group-item">ФИО: Ким Кирилл</li>
-                                                <li class="list-group-item">Дата рождения: 07.01.1995</li>
-                                                <li class="list-group-item">Почта: кириллким03@тестовая-зона.рф</li>
+                                                <li class="list-group-item">ФИО: {{user.first_name}}</li>
+                                                <li class="list-group-item">Дата {{user.birthday.date()}}</li>
+                                                <li class="list-group-item">Почта: {{user.email}}</li>
                                                 <li class="list-group-item">Группа: Взрослый</li>
                                         </ul>
                                         
