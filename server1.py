@@ -1,9 +1,8 @@
 from typing import *
 from pathlib import Path
-from datetime import datetime
-from logging import getLogger, INFO
 
 from flask import Flask, render_template, request, redirect, make_response
+from datetime import datetime
 
 import config
 from models import User
@@ -18,8 +17,6 @@ DAY = 24 * 60 * 60
 app = Flask(__name__)
 
 
-_logger = getLogger(__file__)
-_logger.setLevel(INFO)
 _current_path: Path = Path(__file__).parent
 _database: Database = Database(Path("hack2.db"))
 _database.initialize()
@@ -29,7 +26,6 @@ _mail_sender: SecureMailSender = SecureMailSender(
     sender_addr=config.SENDER_MAIL,
     password=config.SENDER_PASSWORD,
 )
-_mail_sender.start()
 
 
 class Server:
@@ -38,7 +34,7 @@ class Server:
         self._mail_sender = mail_sender
 
     @staticmethod
-    @app.route("/", methods=["POST", "GET"])
+    @app.route("/",methods=['POST','GET'])
     def index():
         return render_template("index.html")
 
@@ -69,7 +65,7 @@ class Server:
             _database.set_user(user)
             # Рендер следующей страницы
             resp = make_response(render_template("profile.html", user=user))
-            resp.set_cookie("email", user.email)
+            resp.set_cookie("email", request.form["email"])
             return resp
         return render_template("registration.html")
 
@@ -87,14 +83,14 @@ class Server:
     def admin():
         return render_template("admin.html")
 
+
     @staticmethod
     @app.route("/spam")
     def spam():
         users = _database.get_all_users()
-        mails = {u.email: "SPAAAAM!!!" for u in users}
-        _logger.info(str(_mail_sender.send_messages(mails)))
+        for user in users:
+            print(_mail_sender.send_message(user.email,"SPAM!!!"))
         return render_template("admin.html")
-
 
 if __name__ == "__main__":
     app.run()
