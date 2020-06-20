@@ -2,3 +2,4 @@ idna
 mypy
 black
 flask
+python-dateutil

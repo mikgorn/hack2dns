@@ -3,6 +3,7 @@ from typing import *
 from enum import IntEnum
 from datetime import datetime
 from dataclasses import dataclass
+from dateutil.relativedelta import relativedelta
 
 import utils
 
@@ -22,6 +23,10 @@ class NameMixin:
 @dataclass
 class BirthdayMixin:
     birthday: datetime
+
+    @property
+    def current_age(self) -> int:
+        return relativedelta(datetime.now() - self.birthday).years  # type: ignore
 
 
 @dataclass
