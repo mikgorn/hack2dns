@@ -23,19 +23,19 @@
                         <div class="col-lg-4 ">
                                 <div class="row"><h2>Укажите необходимые данные</h2></div>
                                 <div class="row">
-                                        <form action="/new_user" method = "post">
+                                        <form action="/registration" method = "POST">
 
                                                 <div class="form-group">
                                                         <label for="secondname">Фамилия</label>
-                                                        <input type="text" class="form-control" id="secondname">
+                                                        <input type="text" class="form-control" id="secondname" name="secondname">
                                                 </div>
                                                 <div class="form-group">
                                                         <label for="firstname">Имя</label>
-                                                        <input type="text" class="form-control" id="firstname">
+                                                        <input type="text" class="form-control" id="firstname" name="firstname">
                                                 </div>
                                                 <div class="form-group">
                                                         <label for="patronymic">Отчество</label>
-                                                        <input type="text" class="form-control" id="patronymic">
+                                                        <input type="text" class="form-control" id="patronymic" name="patronymic">
                                                 </div>
                                                 <div class="checkbox">
                                                         <label><input type="checkbox" value="">Нет отчества</label>
@@ -45,17 +45,17 @@
                                                         
                                                         <div class="col-lg-3">
                                                                 <label for="bdday">День</label>
-                                                                <select class="form-control" id="bdday">
+                                                                <select class="form-control" id="bdday" name="bdday">
                                                                 </select>  
                                                         </div>
                                                         <div class="col-lg-4">
                                                                 <label for="bdmonth">Месяц</label>
-                                                                <select class="form-control" id="bdmonth">
+                                                                <select class="form-control" id="bdmonth" name="bdmonth">
                                                                 </select>  
                                                         </div>
                                                         <div class="col-lg-5">
                                                                 <label for="bdyear">Год</label>
-                                                                <select class="form-control" id="bdyear">
+                                                                <select class="form-control" id="bdyear" name="bdyear">
                                                                 </select>  
                                                         </div>
                                                         <script>
@@ -81,26 +81,26 @@
                                                 <div class="form-group">
                                                         <label for="specialgroup">Группа риска</label>
                                                         <div class="form-group">
-                                                                <label class="checkbox-inline"><input type="checkbox">Пенсионер</label>
-                                                                <label class="checkbox-inline"><input type="checkbox">Инвалид</label>
+                                                                <label class="checkbox-inline"><input type="checkbox" name="retiree">Пенсионер</label>
+                                                                <label class="checkbox-inline"><input type="checkbox" name="disabled">Инвалид</label>
                                                         </div>
                                                 </div>
                                                 <div class="form-group">
                                                         <label for="email">Адрес электронной почты</label>
-                                                        <input type="email" class="form-control" id="email">
+                                                        <input type="email" class="form-control" id="email" name="email">
                                                 </div>
                                                 <div class="form-group">
                                                         <label for="confirmemail">Повторите электронную почту</label>
-                                                        <input type="email" class="form-control" id="confirmemail">
+                                                        <input type="email" class="form-control" id="confirmemail" name="confirmemail">
                                                 </div>
                                                 
                                                 <div class="form-group">
                                                         <label for="confirmpwd">Пароль</label>
-                                                        <input type="password" class="form-control" id="pwd">
+                                                        <input type="password" class="form-control" id="pwd" name="pwd">
                                                 </div>
                                                 <div class="form-group">
                                                         <label for="pwd">Повторите пароль</label>
-                                                        <input type="password" class="form-control" id="confirmpwd">
+                                                        <input type="password" class="form-control" id="confirmpwd" name="confirmpwd">
                                                 </div>
                                                 <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
                                         </form>

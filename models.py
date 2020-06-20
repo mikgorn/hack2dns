@@ -15,7 +15,11 @@ class NameMixin:
 class BirthdayMixin:
     birthday: datetime
 
-
+@dataclass
+class Contacts:
+    email : str
+    phone : str
+    address : str
 @dataclass
 class PasswordMixin:
     password: str
@@ -27,9 +31,16 @@ class PasswordMixin:
             .decode(errors="replace")
         )
 
+@dataclass
+class Retiree:
+    retiree: bool
 
 @dataclass
-class User(NameMixin, BirthdayMixin, PasswordMixin):
+class Disabled:
+    disabled: bool
+
+@dataclass
+class User(NameMixin, BirthdayMixin, PasswordMixin, Retiree, Disabled, Contacts):
     ...
 
 
