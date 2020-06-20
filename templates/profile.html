@@ -27,7 +27,12 @@
                                                 <li class="list-group-item">ФИО: {{user.first_name}}</li>
                                                 <li class="list-group-item">Дата {{user.birthday.date()}}</li>
                                                 <li class="list-group-item">Почта: {{user.email}}</li>
+                                                <li class="list-group-item">Адрес: {{user.address}}</li>
+                                                {% if user.retiree == 1 %}
+                                                <li class="list-group-item">Группа: Пенсионер</li>
+                                                {% else %}
                                                 <li class="list-group-item">Группа: Взрослый</li>
+                                                {% endif %}
                                         </ul>
                                         
                                         

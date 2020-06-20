@@ -68,7 +68,7 @@ class User(
             "retiree": False,
             "patronymic": str,
         }
-        other_fields = {"confirmpassword", "confirmemail"}
+        other_fields = {"confirmpassword"}#, "confirmemail"}
         data = {k: v for k, v in raw_data.items()}
         for k, v in defaults_values.items():
             if k not in data:
@@ -90,6 +90,6 @@ class User(
         for i in range(len(fields)):
             data[fields[i]] = values[i]
         data["birthday"] = datetime.strptime(
-            data["birthday"], "%Y-%m-%d %H:%M:%S.%f"
+            data["birthday"]+".000", "%Y-%m-%d %H:%M:%S.%f"
         )
         return cls(**data)

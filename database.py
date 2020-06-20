@@ -20,7 +20,7 @@ class Database:
     )
 
     def __init__(self, dbfile_path: Path):
-        self.connection = connect(str(dbfile_path))
+        self.connection = connect(str(dbfile_path), check_same_thread=False)
         self.c = self.connection.cursor()
 
     def initialize(self):

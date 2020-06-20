@@ -1,7 +1,7 @@
 from typing import *
 from pathlib import Path
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, make_response
 from database import Database
 from models import User
 from datetime import datetime
@@ -25,13 +25,21 @@ class Server:
         error = None
         if request.method == "POST":
 
-            # Данные из формы регистрации
-            print(request.form)
-            print(User.create_from_registration_form(request.form))
+            user = User.create_from_registration_form(request.form)
+            db.set_user(user)
             # Рендер следующей страницы
-            return render_template("registration.html")
+            resp = make_response(render_template("profile.html",user=user))
+            resp.set_cookie('email', request.form["email"])
+            return redirect("/profile")
         return render_template("registration.html")
 
+    @staticmethod
+    @app.route("/profile")
+    def profile():
+        email = request.cookies.get("email")
+        if(email!=""):
+            user=db.get_user_by_email(email)
+            return render_template("profile.html",user=user)
 
 if __name__ == "__main__":
     db = Database("hack2.db")
