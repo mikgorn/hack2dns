@@ -53,10 +53,13 @@ class SimpleMailSender:
     ) -> Optional[Exception]:
         try:
             self._send_message(to_addrs, *message_args, **message_kwargs)
+            return None
         except Exception as e:
             return e
 
-    def send_messages(self, sending_data: Dict[str, str]) -> Dict[str, Optional[Exception]]:
+    def send_messages(
+        self, sending_data: Dict[str, str]
+    ) -> Dict[str, Optional[Exception]]:
         results = {}
         for email, message in sending_data.items():
             results[email] = self.send_message(email, message)
@@ -111,7 +114,11 @@ if __name__ == "__main__":
     s = SimpleMailSender("localhost", 1025, "ficus@net.ru")
     s.start()
     print(s.send_message("Ficus@bk.ru", "Ficus"))
-    print(s.send_messages({"ficus@bk.ар": "Cool", "BreakTheЛайн@тест.ком": "Хеллo"}))
+    print(
+        s.send_messages(
+            {"ficus@bk.ар": "Cool", "BreakTheЛайн@тест.ком": "Хеллo"}
+        )
+    )
     s.stop()
     secure = SecureMailSender(
         "srv.ru",
@@ -121,5 +128,14 @@ if __name__ == "__main__":
     )
     secure.start()
     print(secure.send_message("kirillkim03@тестовая-зона.рф", "Hello, world!"))
-    print(secure.send_messages({"andreyivanov01@тестовая-зона.рф": "Cool", "petrsergeev02@тестовая-зона.рф": "Cool1", "kirillkim03@тестовая-зона.рф": "Hello, Kirill!", "олег@тест.рф": "Мимо"}))
+    print(
+        secure.send_messages(
+            {
+                "andreyivanov01@тестовая-зона.рф": "Cool",
+                "petrsergeev02@тестовая-зона.рф": "Cool1",
+                "kirillkim03@тестовая-зона.рф": "Hello, Kirill!",
+                "олег@тест.рф": "Мимо",
+            }
+        )
+    )
     secure.stop()
