@@ -159,8 +159,9 @@ class Server:
     def send_one():
         mails = {request.form["email"]: "You are the chosen one"}
         answer = _mail_sender.send_messages(mails)
+        users = _database.get_all_users()
         print(answer)
-        return render_template("admin.html", answer=answer)
+        return render_template("admin.html", answer=answer, users=users)
 
 
 if __name__ == "__main__":
