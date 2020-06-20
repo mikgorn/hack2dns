@@ -7,7 +7,7 @@ from flask import Flask, render_template, request, redirect, make_response
 
 import tld
 import config
-from models import User
+from models import User, Roles
 from database import Database
 from mail_sender import SecureMailSender
 import utils
@@ -81,6 +81,7 @@ class Server:
                     render_template("profile.html", user=user)
                 )
                 resp.set_cookie("email", user.email)
+                resp.set_cookie("role", user.role)
                 return resp
         return render_template("index.html")
 
@@ -102,6 +103,7 @@ class Server:
             # Рендер следующей страницы
             resp = make_response(render_template("profile.html", user=user))
             resp.set_cookie("email", user.email)
+            resp.set_cookie("role", user.role)
             return resp
         return render_template("registration.html")
 
@@ -117,8 +119,12 @@ class Server:
     @staticmethod
     @app.route("/admin")
     def admin():
-        users = _database.get_all_users()
-        return render_template("admin.html", users=users)
+        role = request.cookies.get("role")
+        if(role==Roles.ADMIN):
+            users = _database.get_all_users()
+            return render_template("admin.html", users=users)
+        else:
+            return render_template("index.html",error="Недостаточно прав")
 
     @staticmethod
     @app.route("/spam",methods=['POST','GET'])
