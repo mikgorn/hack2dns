@@ -1,4 +1,5 @@
 import socket
+import hashlib
 from typing import *
 from logging import getLogger
 from contextlib import suppress
@@ -24,6 +25,14 @@ def is_hostname_exist(hostname: str) -> bool:
         socket.gethostbyname(hostname)
         return True
     return False
+
+
+def get_password_hash(password: str) -> str:
+    return (
+        hashlib.md5(password.encode(errors="replace"))
+        .digest()
+        .decode(errors="replace")
+    )
 
 
 if __name__ == "__main__":

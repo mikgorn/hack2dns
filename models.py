@@ -3,6 +3,8 @@ from typing import *
 from datetime import datetime
 from dataclasses import dataclass
 
+import utils
+
 
 @dataclass
 class NameMixin:
@@ -27,11 +29,7 @@ class PasswordMixin:
     password: str
 
     def __post_init__(self):
-        self.password = (
-            hashlib.md5(self.password.encode(errors="replace"))
-            .digest()
-            .decode(errors="replace")
-        )
+        self.password = utils.get_password_hash(self.password)
 
 
 @dataclass
