@@ -14,22 +14,22 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1">
         
         </head>
-        <body>
+        <body style="background-image: url(images/background.jpg);">
                 <div class="row">
                         <div class="col-lg-9"></div>
                         <div class="col-lg-1">
                                 <form action="/">
-                                        <button type="submit" class="btn btn-primary btn-block">Главная</button>
+                                        <button type="submit" class="btn btn-success btn-block">Главная</button>
                                 </form>
                                 
                         </div>
                         <div class="col-lg-2">
                                 <form action="/admin">
-                                        <button type="submit" class="btn btn-primary btn-block">Панель управления</button>
+                                        <button type="submit" class="btn btn-success btn-block">Панель управления</button>
                                 </form>
                         </div>
                 </div>
-                <div class="row jumbotron text-center">
+                <div class="row jumbotron text-center" style="padding:0px;">
                         <h1>Регистрация личного кабинета.</h1> 
                 </div>
                 <div class="row">
@@ -44,15 +44,15 @@
 
                                                 <div class="form-group">
                                                         <label for="second_name">Фамилия</label>
-                                                        <input type="text" class="form-control" id="second_name" name="second_name" minlength="2" >
+                                                        <input type="text" autocomplete="on" class="form-control" id="second_name" name="second_name" minlength="2" >
                                                 </div>
                                                 <div class="form-group">
                                                         <label for="first_name">Имя</label>
-                                                        <input type="text" class="form-control" id="first_name" name="first_name" minlength="2" >
+                                                        <input type="text" autocomplete="on" class="form-control" id="first_name" name="first_name" minlength="2" >
                                                 </div>
                                                 <div class="form-group">
                                                         <label for="patronymic">Отчество</label>
-                                                        <input type="text" class="form-control" id="patronymic" name="patronymic">
+                                                        <input type="text" autocomplete="on" class="form-control" id="patronymic" name="patronymic">
                                                 </div>
                                                 
                                                 <label for="bd">Дата рождения</label>
@@ -200,21 +200,21 @@
                                                 </script>
                                                 <div class="form-group">
                                                         <label for="email">Адрес электронной почты</label>
-                                                        <input type="text" class="form-control" id="email" name="email">
+                                                        <input type="text" autocomplete="on" class="form-control" id="email" name="email">
                                                 </div>
                                                 <div class="form-group">
                                                         <label for="confirm_email">Повторите адрес почты</label>
-                                                        <input type="text" class="form-control" id="confirm_email" name="confirm_email">
+                                                        <input type="text" autocomplete="on" class="form-control" id="confirm_email" name="confirm_email">
                                                 </div>
                                                 
                                                 
                                                 <div class="form-group">
                                                         <label for="password">Пароль</label>
-                                                        <input type="password" class="form-control" id="password" name="password" minlength="4" >
+                                                        <input type="password" autocomplete="on" class="form-control" id="password" name="password" minlength="4" >
                                                 </div>
                                                 <div class="form-group">
                                                         <label for="confirmpassword">Повторите пароль</label>
-                                                        <input type="password" class="form-control" id="confirmpassword" name="confirmpassword">
+                                                        <input type="password" autocomplete="on" class="form-control" id="confirmpassword" name="confirmpassword">
                                                 </div>
                                                 <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
                                         </form>
