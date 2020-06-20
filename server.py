@@ -209,7 +209,9 @@ class Server:
         mails = {request.form["email"]: "You are the chosen one"}
         answer = _mail_sender.send_messages(mails)
         _logger.info(answer)
-        return render_template("admin.html", answer=answer)
+        return render_template(
+            "admin.html", answer=answer, users=_database.get_all_users()
+        )
 
 
 if __name__ == "__main__":
