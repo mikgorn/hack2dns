@@ -85,7 +85,7 @@ class Server:
                     render_template("profile.html", user=user)
                 )
                 resp.set_cookie("email", user.email)
-                resp.set_cookie("role", user.role)
+                resp.set_cookie("role", int(user.role))
                 return resp
         return render_template("index.html")
 
@@ -107,7 +107,7 @@ class Server:
             # Рендер следующей страницы
             resp = make_response(render_template("profile.html", user=user))
             resp.set_cookie("email", user.email)
-            resp.set_cookie("role", user.role)
+            resp.set_cookie("role", int(user.role))
             return resp
         return render_template("registration.html")
 
