@@ -44,8 +44,15 @@
                         <div class="col-lg-1"></div>
                         <div class="col-lg-5">
                                 <h2>Статус рассылки</h2>
-                                <div class="row bg-success">Этому дошло</div>
-                                <div class="row bg-danger">Этому не дошло</div>
+                                {% if answer !=None %}
+                                {%for email,message in answer.items() %}
+                                {% if message==None %}
+                                <div class="row bg-success">Письмо на {{ email }} отправлено без ошибок</div>
+                                {% else %}
+                                <div class="row bg-danger">Письмо на {{ email }} отправлено с ошибкой {{message}}</div>
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
                         </div>
                 </div>
         </body>

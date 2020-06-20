@@ -105,21 +105,21 @@ class SecureMailSender(SimpleMailSender):
 
 
 if __name__ == "__main__":
-    s = SimpleMailSender(
-        "localhost", 1025, sender_addr="алёша.попович@русские-сказки.нет"
-    )
-    s.start()
-    print(s.send_message(["check@ар.рф", "Ficus@bk.ru"], "фокус"))
-    s.stop()
-    s = SimpleMailSender("localhost", 1025, "ficus@net.ru")
-    s.start()
-    print(s.send_message("Ficus@bk.ru", "Ficus"))
-    print(
-        s.send_messages(
-            {"ficus@bk.ар": "Cool", "BreakTheЛайн@тест.ком": "Хеллo"}
-        )
-    )
-    s.stop()
+    # s = SimpleMailSender(
+    #     "localhost", 1025, sender_addr="алёша.попович@русские-сказки.нет"
+    # )
+    # s.start()
+    # print(s.send_message(["check@ар.рф", "Ficus@bk.ru"], "фокус"))
+    # s.stop()
+    # s = SimpleMailSender("localhost", 1025, "ficus@net.ru")
+    # s.start()
+    # print(s.send_message("Ficus@bk.ru", "Ficus"))
+    # print(
+    #     s.send_messages(
+    #         {"ficus@bk.ар": "Cool", "BreakTheЛайн@тест.ком": "Хеллo"}
+    #     )
+    # )
+    # s.stop()
     secure = SecureMailSender(
         "srv.ru",
         465,

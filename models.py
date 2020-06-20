@@ -71,7 +71,7 @@ class User(
         defaults_values = {
             "disabled": False,
             "retiree": False,
-            "patronymic": str,
+            "patronymic": "",
         }
         other_fields = {"confirmpassword"}
         data = {k: v for k, v in raw_data.items()}

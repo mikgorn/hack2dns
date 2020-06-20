@@ -61,7 +61,7 @@ class Server:
                 resp = make_response(
                     render_template("profile.html", user=user)
                 )
-                resp.set_cookie("email", request.form["email"])
+                resp.set_cookie("email", user.email)
                 return resp
         return render_template("index.html")
 
@@ -99,8 +99,9 @@ class Server:
     def spam():
         users = _database.get_all_users()
         mails = {u.email: "SPAAAAM!!!" for u in users}
-        _logger.info(str(_mail_sender.send_messages(mails)))
-        return render_template("admin.html")
+        answer = _mail_sender.send_messages(mails)
+        print(answer)
+        return render_template("admin.html",answer=answer)
 
 
 if __name__ == "__main__":
