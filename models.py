@@ -15,11 +15,12 @@ class NameMixin:
 class BirthdayMixin:
     birthday: datetime
 
+
 @dataclass
-class Contacts:
-    email : str
-    phone : str
-    address : str
+class ContactsMixin:
+    email: str
+
+
 @dataclass
 class PasswordMixin:
     password: str
@@ -31,26 +32,51 @@ class PasswordMixin:
             .decode(errors="replace")
         )
 
-@dataclass
-class Retiree:
-    retiree: bool
 
 @dataclass
-class Disabled:
-    disabled: bool
+class RetireeMixin:
+    retiree: Union[bool, Any]
+
+    def __post_init__(self):
+        self.retiree = bool(self.retiree)
+
 
 @dataclass
-class User(NameMixin, BirthdayMixin, PasswordMixin, Retiree, Disabled, Contacts):
-    ...
+class DisabledMixin:
+    disabled: Union[bool, Any]
+
+    def __post_init__(self):
+        self.disabled = bool(self.disabled)
 
 
-if __name__ == "__main__":
-    print(
-        User(
-            first_name="Svyatoslav",
-            second_name="Krivulya",
-            birthday=datetime.now(),
-            patronymic=None,
-            password="Hello, world!",
+@dataclass
+class User(
+    NameMixin,
+    BirthdayMixin,
+    PasswordMixin,
+    RetireeMixin,
+    DisabledMixin,
+    ContactsMixin,
+):
+    @classmethod
+    def create_from_registration_form(
+        cls, raw_data: Union[Dict[str, Any], MutableMapping[str, Any]]
+    ) -> "User":
+        defaults_values = {
+            "disabled": False,
+            "retiree": False,
+            "patronymic": None,
+        }
+        other_fields = {"confirmpassword", "confirmemail"}
+        data = {k: v for k, v in raw_data.items()}
+        for k, v in defaults_values.items():
+            if k not in data:
+                data[k] = v
+        data["birthday"] = datetime(
+            int(data.pop("bdyear")),
+            int(data.pop("bdmonth")),
+            int(data.pop("bdday")),
         )
-    )
+        for k in other_fields:
+            data.pop(k)
+        return cls(**data)
