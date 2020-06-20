@@ -131,7 +131,7 @@ class Server:
                     "registration.html", error=bad_check_results
                 )
             user = User.create_from_registration_form(request.form)
-            if user.current_age < 0:
+            if not user.current_age:
                 _logger.info("%s" % str(User))
                 return render_template(
                     "registration.html", error="Дата рождения еще не наступила"
