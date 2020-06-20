@@ -14,7 +14,7 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1">
         
         </head>
-        <body style="background-image: url(images/background.jpg);">
+        <body style="background-image: url(background.jpg);">
                 <div class="row">
                         <div class="col-lg-9"></div>
                         <div class="col-lg-1">
@@ -29,12 +29,12 @@
                                 </form>
                         </div>
                 </div>
-                <div class="row jumbotron text-center" style="padding:0px;">
+                <div class="row jumbotron text-center" style="padding:0px; opacity:0.7;">
                         <h1>Панель управления.</h1> 
                 </div>
                 <div class="row">
                         <div class="col-lg-1"></div>
-                        <div class="col-lg-3 panel" style="padding:30px; padding-top:0px;">
+                        <div class="col-lg-3 panel" style="padding:30px; padding-top:0px; background-color:rgba(245, 245, 245, 0.7);">
                                 <div class="row"><h2>Рассылка</h2></div>
                                 <div class="row">
                                         <form action="/spam" method='POST'>
@@ -158,9 +158,9 @@
                         <div class="col-lg-1"></div>
                         
                         <div class="col-lg-5">
-                                <div class="row panel" style="padding:10px; padding-top:0px; margin-right:2%;"><h2>Список пользователей</h2></div>
+                                <div class="row panel" style="padding:10px; padding-top:0px; margin-right:2%; background-color:rgba(245, 245, 245, 0.7);"><h2>Список пользователей</h2></div>
                                 {% if users %}
-                                <table class="row table table-striped panel">
+                                <table class="row table table-striped panel" style="background-color:rgba(245, 245, 245, 0.7);">
                                         <thead>
                                                 <tr>
                                                         <th>Полное имя</th>
@@ -183,7 +183,7 @@
                                 </table>
                                 {% endif %}
                         </div>
-                        <div class="col-lg-2 panel" style="padding:10px; padding-top:0px; ">
+                        <div class="col-lg-2 panel" style="padding:10px; padding-top:0px; background-color:rgba(245, 245, 245, 0.7);">
                                 <h2>Статус рассылки</h2>
                                 {% if answer %}
                                 {%for email,message in answer.items() %}

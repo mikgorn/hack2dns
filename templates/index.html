@@ -14,7 +14,7 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1">
         
         </head>
-        <body style="background-image: url(images/background.jpg);">
+        <body style="background-image: url('images/background.jpg');">
                 <div class="row">
                         <div class="col-lg-9"></div>
                         <div class="col-lg-1">
@@ -25,16 +25,16 @@
                         </div>
                         <div class="col-lg-2">
                                 <form action="/admin">
-                                        <button type="submit" class="btn btn-successs btn-block">Панель управления</button>
+                                        <button type="submit" class="btn btn-success btn-block">Панель управления</button>
                                 </form>
                         </div>
                 </div>
-                <div class="row jumbotron text-center" style="padding:0px;">
+                <div class="row jumbotron text-center" style="padding:0px; opacity:0.7;">
                         <h1>Онлайн сервис по борьбе с пандемией.</h1> 
                 </div>
                 <div class="row">
                         <div class="col-lg-1"></div>
-                        <div class="col-lg-2 panel "style="padding-left:30px; padding-right:30px; padding-bottom:30px;">
+                        <div class="col-lg-2 panel "style="padding-left:30px; padding-right:30px; padding-bottom:30px; background-color:rgba(245, 245, 245, 0.7);">
                                 <div class="row"><h2>Вход</h2></div>
                                 {% if error %}
                                 <div class="row alert alert-danger">{{error}}</div>
@@ -63,10 +63,10 @@
                         </div>
                         <div class="col-lg-1"></div>
                         <div class="col-lg-5 " >
-                                <div class="panel">
-                                <h2  style="padding:5px; margin-top:5px;" >Новостная лента</h2>
+                                <div class="panel" style="background-color:rgba(245, 245, 245, 0.7);">
+                                <h2  style="padding:5px; margin-top:5px; " >Новостная лента</h2>
                                 </div>
-                                <div class="col-lg-5 panel" style="background-color: whitesmoke;">
+                                <div class="col-lg-5 panel" style="background-color:rgba(245, 245, 245, 0.7);">
                                         <h4>Оперштаб: число выздоровевших от COVID-19 за сутки стабильно превышает 10 тысяч человек</h4>
                                         <div>Оперативный штаб озвучил статистику по заболеваемости новой коронавирусной инфекцией в России на 20 июня.
 
@@ -74,7 +74,7 @@
                                                 <div><a href="http://стопкоронавирус.рф"><b>стопкоронавирус.рф</b></a></div>
                                 </div>
                                 <div class="col-lg-1"></div>
-                                <div class="col-lg-5 panel"style="background-color: whitesmoke;" >
+                                <div class="col-lg-5 panel"style="background-color: rgba(245, 245, 245, 0.7);" >
                                         <h4>ПЕРВЫЕ ПРИЗНАКИ И СИМПТОМЫ КОРОНАВИРУСА У ЧЕЛОВЕКА</h4>
                                         <div>У порядка 76 – 81% людей диагноз, связанный с заражением коронавирусной инфекцией заканчивается полным выздоровлением, учитывая тот фактор, что спецмероприятий не требуется. Согласно статистике, 1 случай из 7 COVID-19 – это протекание тяжелой симптоматики с последующим развитием дыхательной недостаточности.</div>
                                         <div><a href="http://коронавируса-нет.рф/"><b>коронавируса-нет.рф</b></a></div>
