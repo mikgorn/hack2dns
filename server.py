@@ -49,6 +49,10 @@ class Server:
             return "Некорректный домен верхнего уровня."
         if not utils.is_correct_email(email):
             return "Некорректный email-адресс."
+        if not data["second_name"]:
+            return "Фамилия отсутствует."
+        if not data["first_name"]:
+            return "Имя отсутствует."
         return None
 
     @staticmethod
