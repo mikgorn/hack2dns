@@ -75,6 +75,8 @@
                                                                 for (var i=2020;i>1900;i--){
                                                                         bdyear.appendChild(new Option(i,i));
                                                                 }
+                                                                
+                                                                
 
                                                         </script>
 
@@ -88,8 +90,15 @@
                                                 </div>
                                                 <div class="form-group">
                                                         <label for="address">Регион проживания</label>
-                                                        <input type="text" class="form-control" id="address" name="address">
+                                                        <select required class="form-control" id="address" name="address"></select>
                                                 </div>
+                                                <script>
+                                                        var addresses=["Москва","Санкт-Петербург","Регионы"];
+                                                        var address = document.getElementById("address");
+                                                        for (var i=0;i<3;i++){
+                                                                address.appendChild(new Option(addresses[i],addresses[i]));
+                                                        }
+                                                </script>
                                                 <div class="form-group">
                                                         <label for="email">Адрес электронной почты</label>
                                                         <input type="text" class="form-control" id="email" name="email">
