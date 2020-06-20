@@ -8,6 +8,8 @@ from ssl import create_default_context
 
 import smtp
 
+from utils import convert_email_from_punycode_to_utf
+
 
 WAIT_TIME = 1
 
@@ -64,6 +66,10 @@ class SimpleMailSender:
             raise Exception("Send by null-mail!")
         message = self._create_message(*message_args, **message_kwargs)
         message["From"] = self.sender_addr
+        if isinstance(to_addrs, str):
+            to_addrs = convert_email_from_punycode_to_utf(to_addrs)
+        if isinstance(to_addrs, Sequence):
+            to_addrs = [convert_email_from_punycode_to_utf(addr) for addr in to_addrs]
         self._smtp.send_message(
             message, from_addr=self.sender_addr, to_addrs=to_addrs,
         )

@@ -146,7 +146,7 @@ class Server:
         if(request.form.get("send_one")!=None):
             email=request.form.get("email")
             user=_database.get_user_by_email(email)
-            mails = {email: mesage.replace("_username_",user.first_name)}
+            mails = {email: message.replace("_username_",user.first_name)}
             answer = _mail_sender.send_messages(mails)
             _logger.info(answer)
             return render_template("admin.html", answer=answer)
