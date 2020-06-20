@@ -22,6 +22,7 @@ def SMTPDisconnectErrorRetryPolicy(f: Callable) -> Callable:
                 self._logger.exception(e)
                 self.reconnect()
                 sleep(WAIT_TIME)
+
     return inner
 
 

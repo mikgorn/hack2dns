@@ -63,7 +63,7 @@ class Database:
 
     @transaction
     def delete_user(self, email: str) -> None:
-        self.c.execute("DELETE FROM user WHERE email=?", (email, ))
+        self.c.execute("DELETE FROM user WHERE email=?", (email,))
         self.connection.commit()
 
     def _find_by(

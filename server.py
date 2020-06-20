@@ -42,6 +42,13 @@ class Server:
 
     @staticmethod
     def validate_registration_data(data: Dict[str, Any]) -> Optional[str]:
+        for c in "0123456789/@#$%^&*()_=-+}{,.":
+            if c in (
+                data["first_name"] + data["second_name"] + data["patronymic"]
+            ):
+                return "Некорректный символ в имени"
+        if not (data["email"] == data["confirm_email"]):
+            return "Адреса электронной почты не совпадают"
         if not data["second_name"]:
             return "Фамилия отсутствует"
         if not data["first_name"]:
@@ -141,29 +148,30 @@ class Server:
     @staticmethod
     @app.route("/spam", methods=["POST", "GET"])
     def spam():
-        message=request.form.get("message")
+        message = request.form.get("message")
+        users = _database.get_all_users()
         print(request.form)
-        if(request.form.get("send_one")!=None):
-            email=request.form.get("email")
-            user=_database.get_user_by_email(email)
-            mails = {email: mesage.replace("_username_",user.first_name)}
+        if request.form.get("send_one") != None:
+            email = request.form.get("email")
+            user = _database.get_user_by_email(email)
+            mails = {email: mesage.replace("_username_", user.first_name)}
             answer = _mail_sender.send_messages(mails)
             _logger.info(answer)
-            return render_template("admin.html", answer=answer)
-        
-        if(request.form.get("spam")!=None):
-            users = _database.get_all_users()
+            return render_template("admin.html", answer=answer, users=users)
+
+        if request.form.get("spam") != None:
+
             mails = {}
             for user in users:
                 if (request.form["address"] == "Все города") or (
                     request.form["address"] == user.address
                 ):
-                    mails[user.email] = message.replace("_username_",user.first_name)
+                    mails[user.email] = message.replace(
+                        "_username_", user.first_name
+                    )
             answer = _mail_sender.send_messages(mails)
             _logger.info(answer)
             return render_template("admin.html", answer=answer, users=users)
-        
-        
 
     @staticmethod
     @app.route("/send_one", methods=["POST", "GET"])
