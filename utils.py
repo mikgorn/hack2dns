@@ -6,6 +6,7 @@ from logging import getLogger
 from contextlib import suppress
 
 import idna  # type: ignore
+import dns.resolver
 
 
 _logger = getLogger(__file__)
@@ -16,11 +17,11 @@ def convert_punycode_to_utf(punycode: str) -> str:
     return idna.decode(punycode)
 
 
-def is_hostname_exist(hostname: str) -> bool:
+def is_domain_exist(hostname: str) -> bool:
     """
-    >>> is_hostname_exist("google.com")
+    >>> is_domain_exist("google.com")
     True
-    >>> is_hostname_exist("minus_plus_del.abcd")
+    >>> is_domain_exist("minus_plus_del.abcd")
     False
     """
     with suppress(Exception):
@@ -52,8 +53,57 @@ def is_correct_email(email: str) -> bool:
     True
     >>> is_correct_email("andreyivanov01@тестовая-зонарф")
     False
+    >>> is_correct_email("andreyivanov01@тестовая-зона.область.рф")
+    True
     """
     return bool(re.search(_email_pattern, email))
+
+
+def is_domain_has_mx(domain: str) -> bool:
+    """
+    >>> is_domain_has_mx("rtv.ru")
+    True
+    >>> is_domain_has_mx("vse.net.da")
+    False
+    >>> is_domain_has_mx("mail.ru")
+    True
+    """
+    with suppress(dns.resolver.NoAnswer):
+        try:
+            return bool(dns.resolver.query(domain, "MX"))
+        except dns.resolver.NXDOMAIN:
+            return False
+    return False
+
+
+def is_domain_has_host_addresses(domain: str) -> bool:
+    """
+    >>> is_domain_has_host_addresses("rtv.ru")
+    True
+    >>> is_domain_has_host_addresses("vse.net.da")
+    False
+    """
+    with suppress(dns.resolver.NoAnswer):
+        try:
+            return bool(dns.resolver.query(domain, "A"))
+        except dns.resolver.NXDOMAIN:
+            return False
+    return False
+
+
+def is_domain_has_host_ipv6_addresses(domain: str) -> bool:
+    """
+    >>> is_domain_has_host_ipv6_addresses("rtv.ru")
+    False
+    >>> is_domain_has_host_ipv6_addresses("vse.net.da")
+    False
+    """
+    with suppress(dns.resolver.NoAnswer):
+        try:
+            return bool(dns.resolver.query(domain, "AAAA"))
+        except dns.resolver.NXDOMAIN:
+            return False
+    return False
 
 
 if __name__ == "__main__":
