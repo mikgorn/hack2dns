@@ -61,7 +61,7 @@ class Server:
     def login():
         if request.method == "POST":
             if not utils.is_correct_email(request.form["email"].lower()):
-                return render_template("index.html")
+                return render_template("index.html",error="Введите корректный email.")
             email = utils.convert_email_from_punycode_to_utf(
                 request.form["email"].lower()
             )
