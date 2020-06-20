@@ -12,5 +12,5 @@ class MySMTP(SMTPServer):
 
 
 if __name__ == "__main__":
-    MySMTP(("localhost", 1025), None, enable_SMTPUTF8=True)
+    MySMTP(("localhost", 1025), None, enable_SMTPUTF8=False)
     asyncore.loop()
