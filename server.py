@@ -1,16 +1,16 @@
 from typing import *
 from pathlib import Path
 from datetime import datetime
-from logging import getLogger, INFO
+from logging import getLogger, INFO, basicConfig
 
 from flask import Flask, render_template, request, redirect, make_response
 
 import tld
+import utils
 import config
 from models import User, Roles
 from database import Database
 from mail_sender import SecureMailSender
-import utils
 
 
 DAY = 24 * 60 * 60
@@ -21,7 +21,6 @@ app = Flask(__name__)
 
 
 _logger = getLogger(__file__)
-_logger.setLevel(INFO)
 _current_path: Path = Path(__file__).parent
 _database: Database = Database(Path("hack2.db"))
 _database.initialize()
@@ -55,7 +54,7 @@ class Server:
             return "Некорректный домен верхнего уровня."
         if _database.get_user_by_email(email) is not None:
             return "Такая почта уже зарегестрирована."
-        if len(data["password"]) > MIN_PASSWORD_LEN:
+        if len(data["password"]) < MIN_PASSWORD_LEN:
             return (
                 "Слишком короткий пароль. Минимальная длина: %s."
                 % MIN_PASSWORD_LEN
@@ -107,7 +106,7 @@ class Server:
 
             bad_check_results = Server.validate_registration_data(request.form)
             if bad_check_results:
-                print(bad_check_results)
+                _logger.info(bad_check_results)
                 return render_template(
                     "registration.html", error=bad_check_results
                 )
@@ -132,8 +131,8 @@ class Server:
     @staticmethod
     @app.route("/admin")
     def admin():
-        role = request.cookies.get("role")
-        if(role==str(Roles.ADMIN)):
+        role = int(request.cookies.get("role"))
+        if role == Roles.ADMIN:
             users = _database.get_all_users()
             return render_template("admin.html", users=users)
         else:
@@ -151,7 +150,7 @@ class Server:
             ):
                 mails[user.email] = message
         answer = _mail_sender.send_messages(mails)
-        print(answer)
+        _logger.info(answer)
         return render_template("admin.html", answer=answer, users=users)
 
     @staticmethod
@@ -160,9 +159,10 @@ class Server:
         mails = {request.form["email"]: "You are the chosen one"}
         answer = _mail_sender.send_messages(mails)
         users = _database.get_all_users()
-        print(answer)
+        _logger.info(answer)
         return render_template("admin.html", answer=answer, users=users)
 
 
 if __name__ == "__main__":
+    basicConfig(level=INFO)
     app.run(host=config.SERVER_HOST, port=config.SERVER_PORT)
