@@ -14,6 +14,7 @@ import utils
 
 
 DAY = 24 * 60 * 60
+MIN_PASSWORD_LEN = 4
 
 
 app = Flask(__name__)
@@ -46,11 +47,19 @@ class Server:
             return "Фамилия отсутствует."
         if not data["first_name"]:
             return "Имя отсутствует."
-        email = utils.convert_email_from_punycode_to_utf(data["email"])
-        if not tld.is_correct_email_tld(email):
-            return "Некорректный домен верхнего уровня."
+        email = data["email"]
         if not utils.is_correct_email(email):
             return "Некорректный email-адресс."
+        email = utils.convert_email_from_punycode_to_utf(email)
+        if not tld.is_correct_email_tld(email):
+            return "Некорректный домен верхнего уровня."
+        if _database.get_user_by_email(email) is not None:
+            return "Такая почта уже зарегестрирована."
+        if len(data["password"]) > MIN_PASSWORD_LEN:
+            return (
+                "Слишком короткий пароль. Минимальная длина: %s."
+                % MIN_PASSWORD_LEN
+            )
         if data["password"] != data["confirmpassword"]:
             return "Пароли не совпадают."
         return None
@@ -85,7 +94,7 @@ class Server:
                     render_template("profile.html", user=user)
                 )
                 resp.set_cookie("email", user.email)
-                resp.set_cookie("role", int(user.role))
+                resp.set_cookie("role", str(int(user.role)))
                 return resp
         return render_template("index.html")
 
@@ -107,7 +116,7 @@ class Server:
             # Рендер следующей страницы
             resp = make_response(render_template("profile.html", user=user))
             resp.set_cookie("email", user.email)
-            resp.set_cookie("role", int(user.role))
+            resp.set_cookie("role", str(int(user.role)))
             return resp
         return render_template("registration.html")
 
@@ -128,17 +137,19 @@ class Server:
             users = _database.get_all_users()
             return render_template("admin.html", users=users)
         else:
-            return render_template("index.html",error="Недостаточно прав")
+            return render_template("index.html", error="Недостаточно прав")
 
     @staticmethod
-    @app.route("/spam",methods=['POST','GET'])
+    @app.route("/spam", methods=["POST", "GET"])
     def spam():
         users = _database.get_all_users()
-        message="SPAAAAM!!!"
-        mails={}
+        message = "SPAAAAM!!!"
+        mails = {}
         for user in users:
-            if (request.form["address"]=="Все города") or (request.form["address"]==user.address):
-                    mails[user.email]=message
+            if (request.form["address"] == "Все города") or (
+                request.form["address"] == user.address
+            ):
+                mails[user.email] = message
         answer = _mail_sender.send_messages(mails)
         print(answer)
         return render_template("admin.html", answer=answer, users=users)
