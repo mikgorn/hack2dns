@@ -43,24 +43,24 @@ class Server:
     @staticmethod
     def validate_registration_data(data: Dict[str, Any]) -> Optional[str]:
         if not data["second_name"]:
-            return "Фамилия отсутствует."
+            return "Фамилия отсутствует"
         if not data["first_name"]:
-            return "Имя отсутствует."
+            return "Имя отсутствует"
         email = data["email"]
         if not utils.is_correct_email(email):
-            return "Некорректный email-адресс."
+            return "Некорректный email-адрес"
         email = utils.convert_email_from_punycode_to_utf(email)
         if not tld.is_correct_email_tld(email):
-            return "Некорректный домен верхнего уровня."
+            return "Некорректный домен верхнего уровня"
         if _database.get_user_by_email(email) is not None:
-            return "Такая почта уже зарегестрирована."
+            return "Такая почта уже зарегестрирована"
         if len(data["password"]) < MIN_PASSWORD_LEN:
             return (
-                "Слишком короткий пароль. Минимальная длина: %s."
+                "Слишком короткий пароль. Минимальная длина: %s"
                 % MIN_PASSWORD_LEN
             )
         if data["password"] != data["confirmpassword"]:
-            return "Пароли не совпадают."
+            return "Пароли не совпадают"
         return None
 
     @staticmethod
@@ -158,9 +158,8 @@ class Server:
     def send_one():
         mails = {request.form["email"]: "You are the chosen one"}
         answer = _mail_sender.send_messages(mails)
-        users = _database.get_all_users()
         _logger.info(answer)
-        return render_template("admin.html", answer=answer, users=users)
+        return render_template("admin.html", answer=answer)
 
 
 if __name__ == "__main__":
