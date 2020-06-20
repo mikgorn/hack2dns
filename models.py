@@ -33,9 +33,6 @@ class ContactsMixin:
 class PasswordMixin:
     password: str
 
-    def __post_init__(self):
-        self.password = utils.get_password_hash(self.password)
-
 
 @dataclass
 class RetireeMixin:
@@ -86,6 +83,7 @@ class User(
             int(data.pop("bdmonth")),
             int(data.pop("bdday")),
         )
+        data["password"] = utils.get_password_hash(data["password"])
         for k in other_fields:
             data.pop(k)
         return cls(**data)
@@ -111,7 +109,7 @@ if __name__ == "__main__":
         second_name="Кривуя",
         patronymic="",
         birthday=datetime.fromtimestamp(int(time())),
-        password="ficus",
+        password=utils.get_password_hash("ficus"),
         email="ficus@bk.рф",
         disabled=False,
         retiree=True,
