@@ -20,10 +20,7 @@ def SMTPDisconnectErrorRetryPolicy(f: Callable) -> Callable:
                 return f(self, *args, **kwargs)
             except smtplib.SMTPServerDisconnected as e:
                 self._logger.exception(e)
-                error = e
                 self.reconnect()
-                print(e)
-                print(type(self))
                 sleep(WAIT_TIME)
     return inner
 
