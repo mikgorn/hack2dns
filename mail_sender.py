@@ -1,5 +1,6 @@
 import smtplib
 from typing import *
+from time import sleep
 from functools import wraps
 from logging import getLogger
 from email.message import EmailMessage
@@ -8,20 +9,22 @@ from ssl import create_default_context
 import smtp
 
 
+WAIT_TIME = 3
+
+
 def SMTPDisconnectErrorRetryPolicy(f: Callable) -> Callable:
     @wraps(f)
     def inner(self: "SimpleMailSender", *args, **kwargs):
-        error = None
-        for _ in range(3):
+        while True:
             try:
                 return f(self, *args, **kwargs)
             except smtplib.SMTPServerDisconnected as e:
                 self._logger.exception(e)
                 error = e
                 self.reconnect()
-        if error is not None:
-            raise error
-
+                print(e)
+                print(type(self))
+                sleep(WAIT_TIME)
     return inner
 
 
