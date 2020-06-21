@@ -30,7 +30,7 @@ def main():
         email="petrsergeev02@тестовая-зона.рф",
         disabled=False,
         retiree=False,
-        address="Москва",
+        address="г. Москва",
         role=Roles.USER,
     )
 
