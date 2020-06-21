@@ -143,7 +143,7 @@ class Server:
     @app.route("/profile")
     def profile():
         email = request.cookies.get("email")
-        if email != "":
+        if email is not None:
             user = _database.get_user_by_email(email)
             return render_template("profile.html", user=user)
         return redirect("/")
@@ -151,12 +151,12 @@ class Server:
     @staticmethod
     @app.route("/admin")
     def admin():
-        role = int(request.cookies.get("role"))
-        if role == Roles.ADMIN:
-            users = _database.get_all_users()
-            return render_template("admin.html", users=users)
-        else:
-            return render_template("index.html", error="Недостаточно прав")
+        role = request.cookies.get("role")
+        if role is not None:
+            if int(role) == Roles.ADMIN:
+                users = _database.get_all_users()
+                return render_template("admin.html", users=users)
+        return render_template("index.html", error="Недостаточно прав")
 
     @staticmethod
     @app.route("/spam", methods=["POST", "GET"])
