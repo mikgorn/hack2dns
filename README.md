@@ -31,10 +31,10 @@
 ![alt text](https://github.com/mikgorn/hack2dns/blob/master/screenshots/Screenshot_28.png?raw=true)
 
 ### 2) Регистрация новых пользователей
-![alt text](https://github.com/mikgorn/hack2dns/blob/master/screenshots/Screenshot_29.png?raw=true)
+![alt text](https://github.com/mikgorn/hack2dns/blob/master/screenshots/Screenshot_30.png?raw=true)
 
 ### 3) Личный кабинет с персонализированным расписанием
-![alt text](https://github.com/mikgorn/hack2dns/blob/master/screenshots/Screenshot_30.png?raw=true)
+![alt text](https://github.com/mikgorn/hack2dns/blob/master/screenshots/Screenshot_29.png?raw=true)
 
 ### 4) Админская панель управления с функцией рассылки персонализированных сообщений
 ![alt text](https://github.com/mikgorn/hack2dns/blob/master/screenshots/Screenshot_31.png?raw=true)
