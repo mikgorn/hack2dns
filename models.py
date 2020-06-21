@@ -117,21 +117,3 @@ class User(
             data["birthday"], "%Y-%m-%d %H:%M:%S"
         )
         return cls(**data)
-
-
-if __name__ == "__main__":
-    from time import time
-
-    u = User(
-        first_name="slava",
-        second_name="Кривуя",
-        patronymic="",
-        birthday=datetime.fromtimestamp(int(time())),
-        password=utils.get_password_hash("ficus"),
-        email="ficus@bk.рф",
-        disabled=False,
-        retiree=True,
-        address="Ficus",
-        role=Roles.USER,
-    )
-    print(u)

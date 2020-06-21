@@ -30,7 +30,7 @@ def main():
         email="petrsergeev02@тестовая-зона.рф",
         disabled=False,
         retiree=False,
-        address="Москва",
+        address="г. Москва",
         role=Roles.USER,
     )
 
@@ -47,25 +47,11 @@ def main():
         role=Roles.ADMIN,
     )
 
-    u4 = User(
-        first_name="Андрей",
-        second_name="Самокатов",
-        patronymic="Павлович",
-        birthday=datetime.fromtimestamp(1025709572),
-        password=get_password_hash("1111"),
-        email="xn--80aidqrt@тестовая-зона.рф",
-        disabled=False,
-        retiree=False,
-        address="Санкт-Петербург",
-        role=Roles.USER,
-    )
-
     db = Database(config.DB_PATH)
     db.initialize()
     db.set_user(u1)
     db.set_user(u2)
     db.set_user(u3)
-    db.set_user(u4)
 
 
 if __name__ == "__main__":
