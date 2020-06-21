@@ -146,7 +146,10 @@ class Server:
         if email is not None:
             user = _database.get_user_by_email(email)
             return render_template("profile.html", user=user)
-        return redirect("/")
+        return render_template(
+            "index.html",
+            error="Сначала необходимио зарегестрироваться или залогиниться",
+        )
 
     @staticmethod
     @app.route("/admin")
