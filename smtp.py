@@ -20,7 +20,7 @@ class UTFSMTP(smtplib.SMTP):
             raise smtplib.SMTPDataError(code, repl)
         else:
             if isinstance(msg, str):
-                msg = smtplib._fix_eols(msg).encode("ascii")
+                msg = smtplib._fix_eols(msg).encode(self.command_encoding)
             q = smtplib._quote_periods(msg)
             if q[-2:] != smtplib.bCRLF:
                 q = q + smtplib.bCRLF
