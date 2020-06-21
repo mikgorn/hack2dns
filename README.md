@@ -24,3 +24,17 @@
 ## 5. Запуск сервера
 Основной файл программы лежит в файле `server.py`. Запустив его командой `python server.py` Вы развернете веб-сервер, доступный по адресу `127.0.0.1:5000`. 
 
+## 6. Доступные функции
+На данный момент доступны следующии функции и страницы:
+
+### 1) Главная страница с новостной лентой и формой входа
+![alt text](https://github.com/mikgorn/hack2dns/blob/master/screenshots/Screenshot_28.png?raw=true)
+
+### 2) Регистрация новых пользователей
+![alt text](https://github.com/mikgorn/hack2dns/blob/master/screenshots/Screenshot_28.png?raw=true)
+
+### 3) Личный кабинет с персонализированным расписанием
+![alt text](https://github.com/mikgorn/hack2dns/blob/master/screenshots/Screenshot_28.png?raw=true)
+
+### 4) Админская панель управления с функцией рассылки персонализированных сообщений
+![alt text](https://github.com/mikgorn/hack2dns/blob/master/screenshots/Screenshot_28.png?raw=true)
